@@ -23,21 +23,6 @@
 	<array>
 
 
-		<dict>
-			<key>begin</key>
-			<string>^(?=\s*```\s*\S*\s*$)</string>
-			<key>end</key>
-			<string>^(?=\s*$)</string>
-			<key>name</key>
-			<string>meta.fenced_block.markdown</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#fenced_blocks</string>
-				</dict>
-			</array>
-		</dict>
 
 
 
@@ -50,6 +35,10 @@
 			<string>meta.block.markdown</string-->
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>include</key>
+					<string>#fenced_block</string>
+				</dict>
 				<dict>
 					<key>include</key>
 					<string>#heading</string>
@@ -261,6 +250,23 @@
 			</dict>
 			<key>name</key>
 			<string>markup.raw.inline.markdown</string>
+		</dict>
+
+		<key>fenced_block</key>
+		<dict>
+			<key>begin</key>
+			<string>^(?=\s*```\s*\S*\s*$)</string>
+			<key>end</key>
+			<string>^(?=\s*$)</string>
+			<!--key>name</key>
+			<string>meta.fenced_block.markdown</string-->
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#fenced_blocks</string>
+				</dict>
+			</array>
 		</dict>
 
 		<key>fenced_blocks</key>
