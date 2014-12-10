@@ -37,11 +37,12 @@
 				<key>foreground</key>
 				<string>#373b41</string>
 				<key>invisibles</key>
-				<string>#e0e0e0</string>
+				<string>#dcdcdd</string>
 				<key>lineHighlight</key>
 				<string>#b4b7b455</string>
 				<key>selection</key>
-				<string>#e0e0e0</string>
+				<string>#dcdcdd</string>
+				<!--string>#e0e0e0</string-->
 			</dict>
 		</dict>
 
@@ -372,8 +373,11 @@
 			<string>markup.raw</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key>
-				<string>#828a95</string>
+				<!--key>foreground</key>
+				<string>#828a95</string-->
+
+				<key>background</key>
+				<string>#f0f0f0</string>
 			</dict>
 		</dict>
 		<dict>
@@ -383,8 +387,8 @@
 			<string>markup.raw.inline</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key>
-				<string>#828a95</string>
+				<!--key>foreground</key>
+				<string>#828a95</string-->
 			</dict>
 		</dict>
 		<dict>
@@ -402,7 +406,7 @@
 			<key>name</key>
 			<string>Fenced Code Block</string>
 			<key>scope</key>
-			<string>punctuation.definition.fenced.markdown, variable.language.fenced.markdown</string>
+			<string>punctuation.definition.raw.markdown, punctuation.definition.fenced.markdown, variable.language.fenced.markdown</string>
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
@@ -489,7 +493,7 @@
 			<key>settings</key>
 			<dict>
 				<key>background</key>
-				<string>#e0e0e0</string>
+				<string>#dcdcdd</string>
 				<key>foreground</key>
 				<string>#373b41</string>
 			</dict>

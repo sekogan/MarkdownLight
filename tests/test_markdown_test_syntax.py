@@ -81,6 +81,16 @@ K "**L**" (**M**) '**N**' O
         self.verify_scope(r'\*', 'punctuation.definition')
         self.verify_default(r'''[AEKQ"\(\)'\.]''')
 
+    def test_brackets_inside_inline_markup(self):
+        self.set_text('''
+*A (B C)*: D
+*(K)* **(L)**
+''')
+        self.verify_scope([ r'A \(B C\)', r'\(K\)' ] , 'markup.italic')
+        self.verify_scope( r'\(L\)', 'markup.bold')
+        self.verify_scope(r'\*', 'punctuation.definition')
+        self.verify_default(r': D')
+
     def test_inline_markup_combinations(self):
         self.set_text('_A _ B_C D_E _ F_ *G* **H** <a>_I_</a>')
         self.verify_scope([ 'A _ B_C D_E _ F',
