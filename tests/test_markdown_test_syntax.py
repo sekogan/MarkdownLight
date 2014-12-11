@@ -185,6 +185,40 @@ def g():
         self.verify_scope('g', 'entity.name')
         self.verify_scope('return', 'keyword.control')
 
+    def test_indented_raw_blocks(self):
+        self.set_text('''
+A
+
+    B
+
+C
+''')
+        self.verify_scope(r'    B\n', 'markup.raw.block')
+        self.verify_default([ r'\nA\n\n', r'\nC\n' ])
+
+    def test_multiline_indented_raw_blocks(self):
+        self.set_text('''
+    A
+    B
+''')
+        self.verify_scope([ r'    A\n', r'    B\n' ],
+            'markup.raw.block')
+
+    def test_indented_raw_blocks_glued_to_text(self):
+        self.set_text('''
+A
+    B
+
+    C
+D
+''')
+        self.verify_scope(r'    C\n', 'markup.raw.block')
+        self.verify_default([ r'\nA\n    B\n\n', r'D\n' ])
+
+    def test_blank_line_is_not_indented_raw_block(self):
+        self.set_text('\n\n    \n\n')
+        self.verify_default(r'\n[ ]+\n')
+
     def test_inline_raw_text(self):
         self.set_text('''
 A `B` C

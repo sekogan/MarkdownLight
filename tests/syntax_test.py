@@ -3,9 +3,17 @@ import unittest
 
 SINGLE_SCOPE = 1
 
+def make_human_readable(string):
+    return (string
+        .replace('\n', r'\n')
+        .replace('\r', r'\r')
+        .replace('\t', r'\t')
+        )
+
 class SyntaxTestCase(unittest.TestCase):
     def setUp(self):
         self.view = sublime.active_window().new_file()
+        self.view.settings().set('auto_indent', False)
 
     def tearDown(self):
         if self.view:
@@ -35,7 +43,11 @@ class SyntaxTestCase(unittest.TestCase):
     def has_single_scope(self, region, scope):
         if not self.has_scope(region, scope):
             return False
-        return len(self.view.scope_name(region.begin()).split()) == 1
+        begin_scope = self.view.scope_name(region.begin())
+        scopes = map(lambda pos: self.view.scope_name(pos),
+            range(region.begin() + 1, region.end()))
+        return (len(begin_scope.split()) == 1 and
+            all(map(lambda scope: scope == begin_scope, scopes)))
 
     def verify_pattern(self, pattern, scope, flags):
         regions = self.view.find_all(pattern)
@@ -44,7 +56,7 @@ class SyntaxTestCase(unittest.TestCase):
         for region in regions:
             self.assertTrue(check(region, scope),
                 'Text "{}" found by /{}/ does not match scope "{}"'.format(
-                    self.view.substr(region),
+                    make_human_readable(self.view.substr(region)),
                     pattern,
                     scope
                     )
@@ -58,11 +70,3 @@ class SyntaxTestCase(unittest.TestCase):
 
     def verify_default(self, patterns):
         self.verify_scope(patterns, self.default_scope, SINGLE_SCOPE)
-
-    # def verify_scopes(self, scopes):
-    #     for scope in scopes:
-    #         self.verify_scope(*scope)
-
-    # def verify(self, text, scopes):
-    #     self.set_text(text)
-    #     self.verify_scopes(scopes)
