@@ -33,6 +33,17 @@ class SyntaxTestCase(unittest.TestCase):
     def set_default_scope(self, default_scope):
         self.default_scope = default_scope
 
+# TODO:
+# 1. If region.begin() has scopes A and B, but the rest
+# of the text has only scope B then extract_scope(begin)
+# will select only region.begin
+# 2. Add methods of checking that given region
+# - has scope
+# - has one scope
+# - has one scope and scope has exactly the same region
+# - has scope and scope has exactly the same region
+# 3. Use extract_scope to find positions to check.
+
     def has_scope(self, region, scope):
         pos = region.begin()
         scope_region = self.view.extract_scope(pos)

@@ -306,3 +306,76 @@ D
         self.verify_scope('A', 'markup.raw')
         self.verify_scope('B', 'markup.italic')
         self.verify_scope('C', 'markup.bold')
+
+    def test_list_item_alone(self):
+        self.set_text(
+'''- A
+''')
+        self.verify_scope(r'- A\n', 'meta.paragraph.list')
+        self.verify_scope(r'-', 'punctuation.definition')
+
+    def test_multiline_list(self):
+        self.set_text('''
+- A
+- B
+
+C
+''')
+        # self.verify_scope(r'- A\n- B\n', 'meta.paragraph.list')
+        self.verify_scope(r'- B\n', 'meta.paragraph.list')
+        self.verify_scope(r'-', 'punctuation.definition')
+        self.verify_default(r'\nC\n')
+
+#     def test_type_1_multiline_quoted_block(self):
+#         self.set_text('''
+# >A
+# B
+
+# C
+# ''')
+#         self.verify_scope(r'>A\nB\n', 'markup.quote')
+#         self.verify_scope(r'>', 'punctuation.definition')
+#         self.verify_default(r'\nC\n')
+
+#     def test_type_2_multiline_quoted_block(self):
+#         self.set_text('''
+# >A
+# >B
+
+# C
+# ''')
+#         self.verify_scope(r'>A\n>B\n', 'markup.quote')
+#         self.verify_scope(r'>', 'punctuation.definition')
+#         self.verify_default(r'\nC\n')
+
+#     def test_quoted_block_inside_paragraph(self):
+#         self.set_text('''
+# A
+# >B
+
+# C
+# ''')
+#         self.verify_scope(r'>B\n', 'markup.quote')
+#         self.verify_default([ r'\nA\n', r'\nC\n' ])
+
+#     def test_spaces_before_and_after_quote_signs(self):
+#         self.set_text('''
+#  > A
+#   >  B
+#    >   C
+
+# D
+# ''')
+#         self.verify_scope(r' > A\n {2}> {2}B\n {3}> {3}C\n', 'markup.quote')
+#         self.verify_scope(r'>', 'punctuation.definition')
+#         self.verify_default(r'\nD\n')
+
+#     def test_inline_markup_inside_quoted_text(self):
+#         self.set_text('''
+# > `A`
+# >  _B_
+# > **C**
+# ''')
+#         self.verify_scope('A', 'markup.raw')
+#         self.verify_scope('B', 'markup.italic')
+#         self.verify_scope('C', 'markup.bold')

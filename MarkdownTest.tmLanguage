@@ -73,6 +73,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#list_item</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#heading</string>
 				</dict>
 				<dict>
@@ -272,6 +276,71 @@
 					<key>include</key>
 					<string>$self</string>
 				</dict>
+				<dict>
+					<key>include</key>
+					<string>#inline</string>
+				</dict>
+			</array>
+		</dict>
+
+		<key>list_item</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#numbered_list_item</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#unnumbered_list_item</string>
+				</dict>
+ 			</array>
+		</dict>
+
+		<key>numbered_list_item</key>
+		<dict>
+			<key>begin</key>
+			<string>^[ ]{,3}(\d+\.)[ ]</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.list_item.markdown punctuation.definition.list_item.number.markdown</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>$\n?</string>
+			<key>name</key>
+			<string>meta.paragraph.list.markdown</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#inline</string>
+				</dict>
+			</array>
+		</dict>
+
+		<key>unnumbered_list_item</key>
+		<dict>
+			<key>begin</key>
+			<string>^[ ]{,3}([*+-])[ ]</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.list_item.markdown</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>$\n?</string>
+			<key>name</key>
+			<string>meta.paragraph.list.markdown</string>
+			<key>patterns</key>
+			<array>
 				<dict>
 					<key>include</key>
 					<string>#inline</string>
