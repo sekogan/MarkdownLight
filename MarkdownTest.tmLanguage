@@ -136,6 +136,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#link</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#bold</string>
 				</dict>
 				<dict>
@@ -257,6 +261,56 @@
 			</dict>
 			<key>name</key>
 			<string>markup.raw.inline.markdown</string>
+		</dict>
+
+		<key>link</key>
+		<dict>
+			<key>begin</key>
+			<string>\[(?=.*?\]\s*\(.*?\))</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.begin.markdown</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\])\s*(\()\s*(.*?)\s*(\))</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.end.markdown</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.metadata.markdown</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>markup.underline.link.markdown</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.metadata.markdown</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.link.inline.markdown</string>
+			<key>contentName</key>
+			<string>string.other.link.title.markdown</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#inline</string>
+				</dict>
+			</array>
 		</dict>
 
 		<key>quoted_block</key>

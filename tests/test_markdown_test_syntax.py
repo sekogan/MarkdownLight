@@ -422,3 +422,34 @@ C
         self.check_eq_scope('A', 'markup.raw.inline.content')
         self.check_eq_scope('B', 'markup.italic')
         self.check_eq_scope('C', 'markup.bold')
+
+    def test_simple_link(self):
+        self.set_text('''
+[A](B)
+C
+''')
+        self.check_eq_scope(r'\[A\]\(B\)', 'meta.link.inline')
+        self.check_eq_scope('A', 'string.other.link.title')
+        self.check_eq_scope('B', 'markup.underline.link')
+        self.check_eq_scope(r'\[', 'punctuation.definition.string.begin')
+        self.check_eq_scope(r'\]', 'punctuation.definition.string.end')
+        self.check_eq_scope([ r'\(', r'\)' ], 'punctuation.definition.metadata')
+        self.check_default('C')
+
+    def test_multiline_links_not_supported(self):
+        self.set_text('''
+[A
+B](C)
+''')
+        self.check_default('.+')
+
+    def test_inline_markup_inside_link(self):
+        self.set_text('''
+[**_A_**](B)
+C
+''')
+        self.check_eq_scope(r'^\[.+\)$', 'meta.link.inline')
+        self.check_eq_scope('_A_', 'markup.bold')
+        self.check_eq_scope('A', 'markup.italic')
+        self.check_eq_scope('B', 'markup.underline.link')
+        self.check_default('C')
