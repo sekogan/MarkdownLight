@@ -17,7 +17,7 @@ class TestMarkdownTestSyntax(syntax_test.SyntaxTestCase):
 A *B* _C_ D
 *E*
 ''')
-        self.check_eq_scope(list('BCE'), 'markup.italic')
+        self.check_eq_scope([ r'\*B\*', '_C_', r'\*E\*' ], 'markup.italic')
         self.check_eq_scope(r'[\*_]', 'punctuation.definition')
         self.check_default(list('AD '))
 
@@ -26,7 +26,7 @@ A *B* _C_ D
 A **B** __C__ D
 **E**
 ''')
-        self.check_eq_scope(list('BCE'), 'markup.bold')
+        self.check_eq_scope([ r'\*\*B\*\*', r'__C__', r'\*\*E\*\*' ], 'markup.bold')
         self.check_eq_scope(r'[\*_]+', 'punctuation.definition')
         self.check_default(list('AD '))
 
@@ -35,10 +35,10 @@ A **B** __C__ D
 A *B **C** D* E
 F **G *H* I** J
 ''')
-        self.check_eq_scope(r'B \*\*C\*\* D', 'markup.italic')
-        self.check_eq_scope(r'H', 'markup.italic')
-        self.check_eq_scope(r'C', 'markup.bold')
-        self.check_eq_scope(r'G \*H\* I', 'markup.bold')
+        self.check_eq_scope(r'\*B \*\*C\*\* D\*', 'markup.italic')
+        self.check_eq_scope(r'\*H\*', 'markup.italic')
+        self.check_eq_scope(r'\*\*C\*\*', 'markup.bold')
+        self.check_eq_scope(r'\*\*G \*H\* I\*\*', 'markup.bold')
         self.check_eq_scope(r'\*+', 'punctuation.definition')
         self.check_default(list('AEFJ'))
 
@@ -49,12 +49,12 @@ BA _**BB**_ BC
 CA **_CB_** CC
 DA __*DB*__ DC
 ''')
-        self.check_eq_scope(r'__AB__', 'markup.italic')
-        self.check_eq_scope(r'\*\*BB\*\*', 'markup.italic')
-        self.check_eq_scope([ 'CB', 'DB' ], 'markup.italic')
-        self.check_eq_scope([ 'AB', 'BB' ], 'markup.bold')
-        self.check_eq_scope(r'_CB_', 'markup.bold')
-        self.check_eq_scope(r'\*DB\*', 'markup.bold')
+        self.check_eq_scope(r'\*__AB__\*', 'markup.italic')
+        self.check_eq_scope(r'_\*\*BB\*\*_', 'markup.italic')
+        self.check_eq_scope([ '_CB_', r'\*DB\*' ], 'markup.italic')
+        self.check_eq_scope([ '__AB__', r'\*\*BB\*\*' ], 'markup.bold')
+        self.check_eq_scope(r'\*\*_CB_\*\*', 'markup.bold')
+        self.check_eq_scope(r'__\*DB\*__', 'markup.bold')
         self.check_eq_scope(r'\*+|_+', 'punctuation.definition')
         self.check_default([ r'[A-Z]A ', r' [A-Z]C\n' ])
 
@@ -74,8 +74,13 @@ G_ H
 A *B*: *C*; *D*, *E*. *F*? G
 K **L**: **M**; **N**, **O**. **P**? Q
 ''')
-        self.check_eq_scope(list('BCDEF'), 'markup.italic')
-        self.check_eq_scope(list('LMNOP'), 'markup.bold')
+        self.check_eq_scope([
+            r'\*B\*', r'\*C\*', r'\*D\*', r'\*E\*', r'\*F\*'
+            ], 'markup.italic')
+        self.check_eq_scope([
+            r'\*\*L\*\*', r'\*\*M\*\*', r'\*\*N\*\*',
+            r'\*\*O\*\*', r'\*\*P\*\*'
+            ], 'markup.bold')
         self.check_eq_scope(r'\*+', 'punctuation.definition')
         self.check_default(r'[AGKQ:;,\.?]')
 
@@ -84,8 +89,8 @@ K **L**: **M**; **N**, **O**. **P**? Q
 A "*B*" (*C*) '*D*' E
 K "**L**" (**M**) '**N**' O
 ''')
-        self.check_eq_scope(list('BCD'), 'markup.italic')
-        self.check_eq_scope(list('LMN'), 'markup.bold')
+        self.check_eq_scope([ r'\*B\*', r'\*C\*', r'\*D\*' ], 'markup.italic')
+        self.check_eq_scope([ r'\*\*L\*\*', r'\*\*M\*\*', r'\*\*N\*\*' ], 'markup.bold')
         self.check_eq_scope(r'\*+', 'punctuation.definition')
         self.check_default(r'''[AEKQ"\(\)'\.]''')
 
@@ -94,22 +99,22 @@ K "**L**" (**M**) '**N**' O
 *A (B C)*: D
 *(K)* **(L)**
 ''')
-        self.check_eq_scope([ r'A \(B C\)', r'\(K\)' ] , 'markup.italic')
-        self.check_eq_scope( r'\(L\)', 'markup.bold')
+        self.check_eq_scope([ r'\*A \(B C\)\*', r'\*\(K\)\*' ] , 'markup.italic')
+        self.check_eq_scope( r'\*\*\(L\)\*\*', 'markup.bold')
         self.check_eq_scope(r'\*+', 'punctuation.definition')
         self.check_default(r': D')
 
     def test_inline_markup_combinations(self):
         self.set_text('_A _ B_C D_E _ F_ *G* **H** <a>_I_</a>')
-        self.check_eq_scope([ 'A _ B_C D_E _ F',
-            'G', 'I' ], 'markup.italic')
-        self.check_eq_scope('H', 'markup.bold')
+        self.check_eq_scope([ '_A _ B_C D_E _ F_',
+            r'\*G\*', '_I_' ], 'markup.italic')
+        self.check_eq_scope(r'\*\*H\*\*', 'markup.bold')
         self.check_default([ '<a>', '</a>' ])
 
     def test_escaping_of_inline_punctuation(self):
         self.set_text(r'A *\*B\** C **D\*** E')
-        self.check_eq_scope(r'\\\*B\\\*', 'markup.italic')
-        self.check_eq_scope(r'D\\\*', 'markup.bold')
+        self.check_eq_scope(r'\*\\\*B\\\*\*', 'markup.italic')
+        self.check_eq_scope(r'\*\*D\\\*\*\*', 'markup.bold')
         self.check_default(list('ACE '))
 
     def test_inline_markup_does_not_work_inside_words(self):
@@ -148,7 +153,7 @@ Z
             '_A_', 'B _C_', 'D _E_ F', 'K _L M_ N'
             ], 'entity.name.section')
         self.check_in_scope(list('ABCDEFKLMN#_ '), 'markup.heading')
-        self.check_eq_scope([ 'A', 'C', 'E', 'L M' ], 'markup.italic')
+        self.check_eq_scope([ '_A_', '_C_', '_E_', '_L M_' ], 'markup.italic')
         self.check_eq_scope(r'#+', 'punctuation.definition')
         self.check_default(r'Z')
 
@@ -331,9 +336,9 @@ D
 >  _B_
 > **C**
 ''')
-        self.check_eq_scope('A', 'markup.raw.inline.content')
-        self.check_eq_scope('B', 'markup.italic')
-        self.check_eq_scope('C', 'markup.bold')
+        self.check_eq_scope('`A`', 'markup.raw.inline.markdown')
+        self.check_eq_scope('_B_', 'markup.italic')
+        self.check_eq_scope(r'\*\*C\*\*', 'markup.bold')
 
     def test_list_item_alone(self):
         self.set_text(
@@ -419,9 +424,9 @@ C
 - **C**
 ''')
         self.check_in_scope(r'-.*$\n', 'meta.paragraph.list')
-        self.check_eq_scope('A', 'markup.raw.inline.content')
-        self.check_eq_scope('B', 'markup.italic')
-        self.check_eq_scope('C', 'markup.bold')
+        self.check_eq_scope('`A`', 'markup.raw.inline.markdown')
+        self.check_eq_scope('_B_', 'markup.italic')
+        self.check_eq_scope(r'\*\*C\*\*', 'markup.bold')
 
     def test_simple_link(self):
         self.set_text('''
@@ -449,8 +454,8 @@ B](C)
 C
 ''')
         self.check_eq_scope(r'^\[.+\)$', 'meta.link.inline')
-        self.check_eq_scope('_A_', 'markup.bold')
-        self.check_eq_scope('A', 'markup.italic')
+        self.check_eq_scope(r'\*\*_A_\*\*', 'markup.bold')
+        self.check_eq_scope('_A_', 'markup.italic')
         self.check_eq_scope('B', 'markup.underline.link')
         self.check_default('C')
 
@@ -471,5 +476,49 @@ Z
         self.set_text('''
 http://A
 ssh://B.C
+http://D?E=F
 ''')
         self.check_default('.+')
+
+    def test_strikethrough(self):
+        self.set_text('''
+A ~~B~~ ~~C D~~ E
+''')
+        self.check_eq_scope([ '~~B~~', '~~C D~~' ], 'markup.strikethrough')
+        self.check_eq_scope('~~', 'punctuation.definition.strikethrough')
+        self.check_default(list('AE'))
+
+    def test_unsupported_strikethrough(self):
+        self.set_text('''
+~~A
+B~~
+~~ C~~
+~~D ~~
+E~~F~~
+''')
+        self.check_default('.+')
+
+    def test_strikethrough_with_bold_italic(self):
+        self.set_text('''
+*__~~A~~__*
+*~~__B__~~*
+~~*__C__*~~
+Z
+''')
+        self.check_eq_scope([
+            r'~~A~~', r'~~__B__~~', r'~~\*__C__\*~~'
+            ], 'markup.strikethrough')
+        self.check_eq_scope([
+            r'__~~A~~__', r'__B__', r'__C__'
+            ], 'markup.bold')
+        self.check_eq_scope([
+            r'\*__~~A~~__\*', r'\*~~__B__~~\*', r'\*__C__\*'
+            ], 'markup.italic')
+        self.check_eq_scope(r'~~|__|\*', 'punctuation.definition')
+        self.check_default('Z')
+
+# AA *__AB__* AC
+# BA _**BB**_ BC
+# CA **_CB_** CC
+# DA __*DB*__ DC
+

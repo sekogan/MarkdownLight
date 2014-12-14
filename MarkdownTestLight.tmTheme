@@ -11,7 +11,7 @@ dcdcdd - light gray
 651d0a - brown
 0daea2 - cyan
 -->
-	
+
 	<key>author</key>
 	<string>Sergey Kogan</string>
 	<key>name</key>
@@ -314,7 +314,7 @@ dcdcdd - light gray
 			<key>name</key>
 			<string>Headings</string>
 			<key>scope</key>
-			<string>markup.heading punctuation.definition.heading, entity.name.section</string>
+			<string>markup.heading</string>
 			<key>settings</key>
 			<dict>
 				<key>fontStyle</key>
@@ -325,7 +325,7 @@ dcdcdd - light gray
 			<key>name</key>
 			<string>Italic in Headings</string>
 			<key>scope</key>
-			<string>entity.name.section markup.italic</string>
+			<string>markup.heading markup.italic</string>
 			<key>settings</key>
 			<dict>
 				<key>fontStyle</key>
@@ -347,7 +347,7 @@ dcdcdd - light gray
 			<key>name</key>
 			<string>Bold</string>
 			<key>scope</key>
-			<string>markup.bold, punctuation.definition.bold</string>
+			<string>markup.bold</string>
 			<key>settings</key>
 			<dict>
 				<key>fontStyle</key>
@@ -358,7 +358,7 @@ dcdcdd - light gray
 			<key>name</key>
 			<string>Italic</string>
 			<key>scope</key>
-			<string>markup.italic, punctuation.definition.italic</string>
+			<string>markup.italic</string>
 			<key>settings</key>
 			<dict>
 				<key>fontStyle</key>
@@ -369,7 +369,7 @@ dcdcdd - light gray
 			<key>name</key>
 			<string>Bold And Italic</string>
 			<key>scope</key>
-			<string>markup.bold markup.italic, punctuation.definition.bold punctuation.definition.italic, markup.italic markup.bold, punctuation.definition.italic punctuation.definition.bold</string>
+			<string>markup.bold markup.italic, markup.italic markup.bold</string>
 			<key>settings</key>
 			<dict>
 				<key>fontStyle</key>
@@ -548,6 +548,17 @@ dcdcdd - light gray
 			<dict>
 				<key>foreground</key>
 				<string>#A36AC7</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Markup.strikethrough</string>
+			<key>scope</key>
+			<string>markup.strikethrough</string>
+			<key>settings</key>
+			<dict>
+				<key>foreground</key>
+				<string>#b4b7b4</string>
 			</dict>
 		</dict>
 		<dict>

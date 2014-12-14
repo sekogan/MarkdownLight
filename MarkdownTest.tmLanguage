@@ -150,6 +150,10 @@
 					<key>include</key>
 					<string>#italic</string>
 				</dict>
+				<dict>
+					<key>include</key>
+					<string>#strikethrough</string>
+				</dict>
  			</array>
 		</dict>
 
@@ -183,7 +187,7 @@
 					<string>punctuation.definition.bold.markdown</string>
 				</dict>
 			</dict>
-			<key>contentName</key>
+			<key>name</key>
 			<string>markup.bold.markdown</string>
 			<key>patterns</key>
 			<array>
@@ -222,8 +226,47 @@
 					<string>punctuation.definition.italic.markdown</string>
 				</dict>
 			</dict>
-			<key>contentName</key>
+			<key>name</key>
 			<string>markup.italic.markdown</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#inline</string>
+				</dict>
+			</array>
+		</dict>
+
+		<key>strikethrough</key>
+		<dict>
+			<key>begin</key>
+			<string>(?x)
+				(?&lt;=^|_|\W) 
+				(~~)
+				(?=
+					[_\*]*(\S|\\.)
+					(
+						.*?
+						(\S|\\.)
+						[_\*]*
+					)?
+					\1
+					[_\*]*
+					($|\W)
+				)
+			</string>
+			<key>end</key>
+			<string>(?&lt;=\S)\1(?=[_\*]*($|\W))</string>
+			<key>captures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.strikethrough.markdown</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>markup.strikethrough.markdown</string>
 			<key>patterns</key>
 			<array>
 				<dict>
