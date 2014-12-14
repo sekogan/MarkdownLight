@@ -236,13 +236,18 @@
 		<key>raw_inline</key>
 		<dict>
 			<key>match</key>
-			<string>(`+)([^`]|(?!(?&lt;!`)\1(?!`))`)*+(\1)</string>
+			<string>(`+)(.+?)(\1)</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
 					<string>punctuation.definition.raw.markdown</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>markup.raw.inline.content.markdown</string>
 				</dict>
 				<key>3</key>
 				<dict>
@@ -351,7 +356,7 @@
 		<key>fenced_block</key>
 		<dict>
 			<key>begin</key>
-			<string>^(?=\s*```\s*\S*\s*$)</string>
+			<string>^(?=\s*```\s*[^\s`]*\s*$)</string>
 			<key>end</key>
 			<string>^(?=\s*$)</string>
 			<key>patterns</key>

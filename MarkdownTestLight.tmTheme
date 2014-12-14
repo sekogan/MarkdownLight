@@ -2,6 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+<!--
+cc342b - red
+0087cf - blue
+dcdcdd - light gray
+828a95 - medium gray
+373b41 - dark gray
+651d0a - brown
+0daea2 - cyan
+-->
+	
 	<key>author</key>
 	<string>Sergey Kogan</string>
 	<key>name</key>
@@ -380,6 +390,19 @@
 				<string>#f0f0f0</string>
 			</dict>
 		</dict>
+
+		<dict>
+			<key>name</key>
+			<string>List Items</string>
+			<key>scope</key>
+			<string>meta.paragraph.list</string>
+			<key>settings</key>
+			<dict>
+				<key>foreground</key>
+				<string>#0daea2</string>
+			</dict>
+		</dict>
+		
 		<dict>
 			<key>name</key>
 			<string>Code</string>
