@@ -140,6 +140,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#url</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#bold</string>
 				</dict>
 				<dict>
@@ -311,6 +315,14 @@
 					<string>#inline</string>
 				</dict>
 			</array>
+		</dict>
+
+		<key>url</key>
+		<dict>
+			<key>match</key>
+			<string>(http|https|ftp)://([^\.\s]+\.)+[^\.\s]+(\?\S*)?</string>
+			<key>name</key>
+			<string>markup.underline.link.markdown</string>
 		</dict>
 
 		<key>quoted_block</key>

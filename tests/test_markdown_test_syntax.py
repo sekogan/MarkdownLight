@@ -453,3 +453,23 @@ C
         self.check_eq_scope('A', 'markup.italic')
         self.check_eq_scope('B', 'markup.underline.link')
         self.check_default('C')
+
+    def test_supported_urls(self):
+        self.set_text('''
+http://A.B
+https://C.D
+ftp://E.F
+http://H.I.J
+http://K.L?
+http://M.N?O=P
+Z
+''')
+        self.check_eq_scope(r'^.+://.+$', 'markup.underline.link')
+        self.check_default('Z')
+
+    def test_unsupported_urls(self):
+        self.set_text('''
+http://A
+ssh://B.C
+''')
+        self.check_default('.+')
