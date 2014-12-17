@@ -16,9 +16,6 @@
 	<key>uuid</key>
 	<string>0A1D9875-B448-11D9-BD50-000D93B6E43C</string>
 
-
-
-
 	<key>patterns</key>
 	<array>
 
@@ -36,13 +33,6 @@
 
 
 
-
-
-
-
-
-
-
 	<key>repository</key>
 	<dict>
 
@@ -53,7 +43,6 @@
 			<key>name</key>
 			<string>markup.raw.block.markdown</string>
 		</dict>
-
 
 		<key>block</key>
 		<dict>
@@ -81,18 +70,14 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#html_block</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#inline</string>
 				</dict>
 			</array>
 		</dict>
-
-
-
-
-
-
-
-
 
 		<key>heading</key>
 		<dict>
@@ -121,8 +106,24 @@
 			</array>
 		</dict>
 
+		<key>html_block</key>
+		<dict>
+			<key>begin</key>
+			<string>^(?=&lt;(p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|ins|del)\b[^&gt;]*&gt;)</string>
+			<key>end</key>
+			<string>(?&lt;=&lt;/\1&gt;)</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>text.html.basic</string>
+				</dict>
+			</array>
+			<key>name</key>
+			<string>meta.disable-markdown</string>
+		</dict>
 
-		<key>inline</key> <!-- todo: remove from dictionary -->
+		<key>inline</key>
 		<dict>
 			<key>patterns</key>
 			<array>
@@ -154,10 +155,12 @@
 					<key>include</key>
 					<string>#strikethrough</string>
 				</dict>
+				<dict>
+					<key>include</key>
+					<string>text.html.basic</string>
+				</dict>
  			</array>
 		</dict>
-
-
 
 		<key>bold</key>
 		<dict>
@@ -399,6 +402,10 @@
 
 		<key>list_item</key>
 		<dict>
+			<key>begin</key>
+			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ])</string>
+			<key>end</key>
+			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\S)</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -409,8 +416,39 @@
 					<key>include</key>
 					<string>#unnumbered_list_item</string>
 				</dict>
+				<dict>
+					<key>include</key>
+					<string>#fenced_block</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#list_item_continuation</string>
+				</dict>
  			</array>
 		</dict>
+
+		<!--key>list_item_search_area</key>
+		<dict>
+			<key>begin</key>
+			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ])</string>
+			<key>end</key>
+			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\S)</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#numbered_list_item</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#unnumbered_list_item</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#list_item_continuation</string>
+				</dict>
+			</array>
+		</dict-->
 
 		<key>numbered_list_item</key>
 		<dict>
@@ -425,7 +463,7 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>$\n?</string>
+			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)</string>
 			<key>name</key>
 			<string>meta.paragraph.list.markdown</string>
 			<key>patterns</key>
@@ -450,7 +488,24 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>$\n?</string>
+			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)</string>
+			<key>name</key>
+			<string>meta.paragraph.list.markdown</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#inline</string>
+				</dict>
+			</array>
+		</dict>
+
+		<key>list_item_continuation</key>
+		<dict>
+			<key>begin</key>
+			<string>^(?=\s+\S)</string>
+			<key>end</key>
+			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)</string>
 			<key>name</key>
 			<string>meta.paragraph.list.markdown</string>
 			<key>patterns</key>

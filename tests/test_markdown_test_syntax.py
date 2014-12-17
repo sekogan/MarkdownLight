@@ -109,7 +109,6 @@ K "**L**" (**M**) '**N**' O
         self.check_eq_scope([ '_A _ B_C D_E _ F_',
             r'\*G\*', '_I_' ], 'markup.italic')
         self.check_eq_scope(r'\*\*H\*\*', 'markup.bold')
-        self.check_default([ '<a>', '</a>' ])
 
     def test_escaping_of_inline_punctuation(self):
         self.set_text(r'A *\*B\** C **D\*** E')
@@ -412,10 +411,9 @@ Z
         self.set_text('''
 A
 - B
-C
 ''')
         self.check_eq_scope(r'- B\n', 'meta.paragraph.list')
-        self.check_default([ r'\nA\n', r'C\n' ])
+        self.check_default(r'\nA\n')
 
     def test_inline_markup_inside_list_items(self):
         self.set_text('''
@@ -427,6 +425,54 @@ C
         self.check_eq_scope('`A`', 'markup.raw.inline.markdown')
         self.check_eq_scope('_B_', 'markup.italic')
         self.check_eq_scope(r'\*\*C\*\*', 'markup.bold')
+
+    def test_multiline_list_items(self):
+        self.set_text('''
+ - A
+ B
+ - C
+D
+
+Z
+''')
+        self.check_eq_scope(r' - A\n B\n - C\nD\n', 'meta.paragraph.list')
+        self.check_default('Z')
+
+    def test_multiline_list_item_with_paragraph(self):
+        self.set_text('''
+- A
+
+ B
+C
+- D
+
+ E
+F
+
+Z
+''')
+        self.check_eq_scope(r'- A\n', 'meta.paragraph.list')
+        self.check_eq_scope(r' B\nC\n- D\n', 'meta.paragraph.list')
+        self.check_eq_scope(r' E\nF\n', 'meta.paragraph.list')
+        self.check_default('Z')
+
+    def test_4_spaces_in_multiline_list_item(self):
+        self.set_text('''
+- A
+    B
+    C
+
+- D
+
+    E
+    F
+
+Z
+''')
+        self.check_eq_scope(r'- A\n {4}B\n {4}C\n', 'meta.paragraph.list')
+        self.check_eq_scope(r'- D\n', 'meta.paragraph.list')
+        self.check_eq_scope(r' {4}E\n {4}F\n', 'meta.paragraph.list')
+        self.check_default('Z')
 
     def test_simple_link(self):
         self.set_text('''
@@ -517,8 +563,27 @@ Z
         self.check_eq_scope(r'~~|__|\*', 'punctuation.definition')
         self.check_default('Z')
 
-# AA *__AB__* AC
-# BA _**BB**_ BC
-# CA **_CB_** CC
-# DA __*DB*__ DC
+    def test_html_tags(self):
+        self.set_text('''
+A<br>
+<li>B
+<a href="http://C.D">E</a>
+''')
+        self.check_default([ r'\nA', r'\n', r'B\n', 'E' ])
+        self.check_eq_scope([ '<br>', '<li>',
+            '<a href="http://C.D">', '</a>' ],
+            'meta.tag')
 
+    def test_block_tags_turn_off_markdown_markup(self):
+        self.set_text('''
+<p>
+*A* ~~B~~ __C__
+</p> 
+<div>*D* ~~E~~ __F__</div> 
+''')
+        self.check_no_scope(list('ABCDEF'), 'markup')
+
+    def test_inline_markup_combined_with_html(self):
+        self.set_text('<a>_A_</a>')
+        self.check_eq_scope('_A_', 'markup.italic')
+        self.check_eq_scope([ '<a>', '</a>' ], 'meta.tag')
