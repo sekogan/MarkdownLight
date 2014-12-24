@@ -474,6 +474,19 @@ Z
         self.check_eq_scope(r' {4}E\n {4}F\n', 'meta.paragraph.list')
         self.check_default('Z')
 
+    def test_fenced_block_is_not_part_of_a_list_item(self):
+        self.set_text('''
+- A
+```
+B
+```
+
+Z
+''')
+        self.check_eq_scope(r'- A\n', 'meta.paragraph.list')
+        self.check_eq_scope(r'```\nB\b\n```\n', 'markup.raw.block.fenced')
+        self.check_default('Z')
+
     def test_simple_link(self):
         self.set_text('''
 [A](B)

@@ -78,7 +78,7 @@ repository:
     begin: ^[ ]{,3}([*+-])[ ]
     beginCaptures:
       '1': {name: punctuation.definition.list_item.markdown}
-    end: ^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)
+    end: ^(?=[ ]{,3}(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)
     patterns:
     - include: '#inline'
 
@@ -87,14 +87,14 @@ repository:
     begin: ^[ ]{,3}(\d+\.)[ ]
     beginCaptures:
       '1': {name: punctuation.definition.list_item.markdown punctuation.definition.list_item.number.markdown}
-    end: ^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)
+    end: ^(?=[ ]{,3}(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)
     patterns:
     - include: '#inline'
 
   list_item_continuation:
     name: meta.paragraph.list.markdown
     begin: ^(?=\s+\S)
-    end: ^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)
+    end: ^(?=[ ]{,3}(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)
     patterns:
     - include: '#inline'
 
@@ -176,7 +176,7 @@ repository:
     begin: |
       (?x)
       (?<=^|_|\W)
-      ~~
+      (~~)
       (?=[_\*]*(\S|\\.)(.*?(\S|\\.)[_\*]*)?\1[_\*]*($|\W))
     end: (?<=\S)\1(?=[_\*]*($|\W))
     captures:

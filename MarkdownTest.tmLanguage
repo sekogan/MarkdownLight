@@ -887,7 +887,7 @@
 			<key>begin</key>
 			<string>^(?=\s+\S)</string>
 			<key>end</key>
-			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)</string>
+			<string>^(?=[ ]{,3}(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)</string>
 			<key>name</key>
 			<string>meta.paragraph.list.markdown</string>
 			<key>patterns</key>
@@ -911,7 +911,7 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)</string>
+			<string>^(?=[ ]{,3}(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)</string>
 			<key>name</key>
 			<string>meta.paragraph.list.markdown</string>
 			<key>patterns</key>
@@ -987,7 +987,7 @@
 			<key>begin</key>
 			<string>(?x)
 (?&lt;=^|_|\W)
-~~
+(~~)
 (?=[_\*]*(\S|\\.)(.*?(\S|\\.)[_\*]*)?\1[_\*]*($|\W))
 </string>
 			<key>captures</key>
@@ -1023,7 +1023,7 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)</string>
+			<string>^(?=[ ]{,3}(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)</string>
 			<key>name</key>
 			<string>meta.paragraph.list.markdown</string>
 			<key>patterns</key>
