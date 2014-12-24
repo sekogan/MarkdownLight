@@ -442,11 +442,11 @@ Z
         self.set_text('''
 - A
 
- B
+  B
 C
 - D
 
- E
+  E
 F
 
 Z
@@ -456,134 +456,134 @@ Z
         self.check_eq_scope(r' E\nF\n', 'meta.paragraph.list')
         self.check_default('Z')
 
-    def test_4_spaces_in_multiline_list_item(self):
-        self.set_text('''
-- A
-    B
-    C
+#     def test_4_spaces_in_multiline_list_item(self):
+#         self.set_text('''
+# - A
+#     B
+#     C
 
-- D
+# - D
 
-    E
-    F
+#     E
+#     F
 
-Z
-''')
-        self.check_eq_scope(r'- A\n {4}B\n {4}C\n', 'meta.paragraph.list')
-        self.check_eq_scope(r'- D\n', 'meta.paragraph.list')
-        self.check_eq_scope(r' {4}E\n {4}F\n', 'meta.paragraph.list')
-        self.check_default('Z')
+# Z
+# ''')
+#         self.check_eq_scope(r'- A\n {4}B\n {4}C\n', 'meta.paragraph.list')
+#         self.check_eq_scope(r'- D\n', 'meta.paragraph.list')
+#         self.check_eq_scope(r' {4}E\n {4}F\n', 'meta.paragraph.list')
+#         self.check_default('Z')
 
-    def test_simple_link(self):
-        self.set_text('''
-[A](B)
-C
-''')
-        self.check_eq_scope(r'\[A\]\(B\)', 'meta.link.inline')
-        self.check_eq_scope('A', 'string.other.link.title')
-        self.check_eq_scope('B', 'markup.underline.link')
-        self.check_eq_scope(r'\[', 'punctuation.definition.string.begin')
-        self.check_eq_scope(r'\]', 'punctuation.definition.string.end')
-        self.check_eq_scope([ r'\(', r'\)' ], 'punctuation.definition.metadata')
-        self.check_default('C')
+#     def test_simple_link(self):
+#         self.set_text('''
+# [A](B)
+# C
+# ''')
+#         self.check_eq_scope(r'\[A\]\(B\)', 'meta.link.inline')
+#         self.check_eq_scope('A', 'string.other.link.title')
+#         self.check_eq_scope('B', 'markup.underline.link')
+#         self.check_eq_scope(r'\[', 'punctuation.definition.string.begin')
+#         self.check_eq_scope(r'\]', 'punctuation.definition.string.end')
+#         self.check_eq_scope([ r'\(', r'\)' ], 'punctuation.definition.metadata')
+#         self.check_default('C')
 
-    def test_multiline_links_not_supported(self):
-        self.set_text('''
-[A
-B](C)
-''')
-        self.check_default('.+')
+#     def test_multiline_links_not_supported(self):
+#         self.set_text('''
+# [A
+# B](C)
+# ''')
+#         self.check_default('.+')
 
-    def test_inline_markup_inside_link(self):
-        self.set_text('''
-[**_A_**](B)
-C
-''')
-        self.check_eq_scope(r'^\[.+\)$', 'meta.link.inline')
-        self.check_eq_scope(r'\*\*_A_\*\*', 'markup.bold')
-        self.check_eq_scope('_A_', 'markup.italic')
-        self.check_eq_scope('B', 'markup.underline.link')
-        self.check_default('C')
+#     def test_inline_markup_inside_link(self):
+#         self.set_text('''
+# [**_A_**](B)
+# C
+# ''')
+#         self.check_eq_scope(r'^\[.+\)$', 'meta.link.inline')
+#         self.check_eq_scope(r'\*\*_A_\*\*', 'markup.bold')
+#         self.check_eq_scope('_A_', 'markup.italic')
+#         self.check_eq_scope('B', 'markup.underline.link')
+#         self.check_default('C')
 
-    def test_supported_urls(self):
-        self.set_text('''
-http://A.B
-https://C.D
-ftp://E.F
-http://H.I.J
-http://K.L?
-http://M.N?O=P
-Z
-''')
-        self.check_eq_scope(r'^.+://.+$', 'markup.underline.link')
-        self.check_default('Z')
+#     def test_supported_urls(self):
+#         self.set_text('''
+# http://A.B
+# https://C.D
+# ftp://E.F
+# http://H.I.J
+# http://K.L?
+# http://M.N?O=P
+# Z
+# ''')
+#         self.check_eq_scope(r'^.+://.+$', 'markup.underline.link')
+#         self.check_default('Z')
 
-    def test_unsupported_urls(self):
-        self.set_text('''
-http://A
-ssh://B.C
-http://D?E=F
-''')
-        self.check_default('.+')
+#     def test_unsupported_urls(self):
+#         self.set_text('''
+# http://A
+# ssh://B.C
+# http://D?E=F
+# ''')
+#         self.check_default('.+')
 
-    def test_strikethrough(self):
-        self.set_text('''
-A ~~B~~ ~~C D~~ E
-''')
-        self.check_eq_scope([ '~~B~~', '~~C D~~' ], 'markup.strikethrough')
-        self.check_eq_scope('~~', 'punctuation.definition.strikethrough')
-        self.check_default(list('AE'))
+#     def test_strikethrough(self):
+#         self.set_text('''
+# A ~~B~~ ~~C D~~ E
+# ''')
+#         self.check_eq_scope([ '~~B~~', '~~C D~~' ], 'markup.strikethrough')
+#         self.check_eq_scope('~~', 'punctuation.definition.strikethrough')
+#         self.check_default(list('AE'))
 
-    def test_unsupported_strikethrough(self):
-        self.set_text('''
-~~A
-B~~
-~~ C~~
-~~D ~~
-E~~F~~
-''')
-        self.check_default('.+')
+#     def test_unsupported_strikethrough(self):
+#         self.set_text('''
+# ~~A
+# B~~
+# ~~ C~~
+# ~~D ~~
+# E~~F~~
+# ''')
+#         self.check_default('.+')
 
-    def test_strikethrough_with_bold_italic(self):
-        self.set_text('''
-*__~~A~~__*
-*~~__B__~~*
-~~*__C__*~~
-Z
-''')
-        self.check_eq_scope([
-            r'~~A~~', r'~~__B__~~', r'~~\*__C__\*~~'
-            ], 'markup.strikethrough')
-        self.check_eq_scope([
-            r'__~~A~~__', r'__B__', r'__C__'
-            ], 'markup.bold')
-        self.check_eq_scope([
-            r'\*__~~A~~__\*', r'\*~~__B__~~\*', r'\*__C__\*'
-            ], 'markup.italic')
-        self.check_eq_scope(r'~~|__|\*', 'punctuation.definition')
-        self.check_default('Z')
+#     def test_strikethrough_with_bold_italic(self):
+#         self.set_text('''
+# *__~~A~~__*
+# *~~__B__~~*
+# ~~*__C__*~~
+# Z
+# ''')
+#         self.check_eq_scope([
+#             r'~~A~~', r'~~__B__~~', r'~~\*__C__\*~~'
+#             ], 'markup.strikethrough')
+#         self.check_eq_scope([
+#             r'__~~A~~__', r'__B__', r'__C__'
+#             ], 'markup.bold')
+#         self.check_eq_scope([
+#             r'\*__~~A~~__\*', r'\*~~__B__~~\*', r'\*__C__\*'
+#             ], 'markup.italic')
+#         self.check_eq_scope(r'~~|__|\*', 'punctuation.definition')
+#         self.check_default('Z')
 
-    def test_html_tags(self):
-        self.set_text('''
-A<br>
-<li>B
-<a href="http://C.D">E</a>
-''')
-        self.check_default([ r'\nA', r'\n', r'B\n', 'E' ])
-        self.check_eq_scope([ '<br>', '<li>',
-            '<a href="http://C.D">', '</a>' ],
-            'meta.tag')
+#     def test_html_tags(self):
+#         self.set_text('''
+# A<br>
+# <li>B
+# <a href="http://C.D">E</a>
+# ''')
+#         self.check_default([ r'\nA', r'\n', r'B\n', 'E' ])
+#         self.check_eq_scope([ '<br>', '<li>',
+#             '<a href="http://C.D">', '</a>' ],
+#             'meta.tag')
 
-    def test_block_tags_turn_off_markdown_markup(self):
-        self.set_text('''
-<p>
-*A* ~~B~~ __C__
-</p> 
-<div>*D* ~~E~~ __F__</div> 
-''')
-        self.check_no_scope(list('ABCDEF'), 'markup')
+#     def test_block_tags_turn_off_markdown_markup(self):
+#         self.set_text('''
+# <p>
+# *A* ~~B~~ __C__
+# </p> 
+# <div>*D* ~~E~~ __F__</div> 
+# ''')
+#         self.check_no_scope(list('ABCDEF'), 'markup')
 
-    def test_inline_markup_combined_with_html(self):
-        self.set_text('<a>_A_</a>')
-        self.check_eq_scope('_A_', 'markup.italic')
-        self.check_eq_scope([ '<a>', '</a>' ], 'meta.tag')
+#     def test_inline_markup_combined_with_html(self):
+#         self.set_text('<a>_A_</a>')
+#         self.check_eq_scope('_A_', 'markup.italic')
+#         self.check_eq_scope([ '<a>', '</a>' ], 'meta.tag')

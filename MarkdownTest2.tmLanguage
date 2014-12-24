@@ -26,10 +26,14 @@
 	<dict>
 		<key>block</key>
 		<dict>
+			<key>applyEndPatternLast</key>
+			<integer>1</integer>
 			<key>begin</key>
 			<string>^(?=\s*\S+)</string>
 			<key>end</key>
 			<string>^(?=\s*$)</string>
+			<key>name</key>
+			<string>BLOCK</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -42,7 +46,7 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#list_item</string>
+					<string>#list</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -673,7 +677,7 @@
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(\s*```)\s*(\w*)\s*$</string>
+					<string>(`{3,}|~{3,})\s*[^\s`~]*\s*$</string>
 					<key>captures</key>
 					<dict>
 						<key>1</key>
@@ -688,7 +692,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(\1)\n</string>
+					<string>^\s*(\1)\s*$\n</string>
 					<key>name</key>
 					<string>markup.raw.block.markdown markup.raw.block.fenced.markdown</string>
 				</dict>
@@ -851,64 +855,138 @@
 				</dict>
 			</array>
 		</dict>
-		<key>list_item</key>
+		<key>list</key>
 		<dict>
+			<key>applyEndPatternLast</key>
+			<integer>1</integer>
 			<key>begin</key>
-			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ])</string>
+			<string>^(?=([*+-]|\d[\.\)]) )</string>
 			<key>end</key>
-			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\S)</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#numbered_list_item</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#unnumbered_list_item</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#fenced_block</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#list_item_continuation</string>
-				</dict>
-			</array>
-		</dict>
-		<key>list_item_continuation</key>
-		<dict>
-			<key>begin</key>
-			<string>^(?=\s+\S)</string>
-			<key>end</key>
-			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)</string>
+			<string>^</string>
 			<key>name</key>
-			<string>meta.paragraph.list.markdown</string>
+			<string>LIST</string>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#inline</string>
+					<string>#list_item_0</string>
 				</dict>
 			</array>
 		</dict>
-		<key>numbered_list_item</key>
+		<key>list_fenced_code_2</key>
 		<dict>
 			<key>begin</key>
-			<string>^[ ]{,3}(\d+\.)[ ]</string>
+			<string>(?:\G|^  )((`{3,}|~{3,})\s*([^\s`~]*)\s*$\n)</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>punctuation.definition.list_item.markdown punctuation.definition.list_item.number.markdown</string>
+					<string>markup.raw.block.markdown markup.raw.block.fenced.markdown</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.fenced.markdown</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>variable.language.fenced.markdown</string>
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)</string>
+			<string>^(?:(?= ?\S)|  ((\1)\s*$\n?))</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>markup.raw.block.markdown markup.raw.block.fenced.markdown</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.fenced.markdown</string>
+				</dict>
+			</dict>
 			<key>name</key>
-			<string>meta.paragraph.list.markdown</string>
+			<string>FENCED1</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#list_fenced_code_2_content</string>
+				</dict>
+			</array>
+		</dict>
+		<key>list_fenced_code_2_content</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>markup.raw.block.markdown markup.raw.block.fenced.markdown</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>^(?:  (.*$\n?)|\s*$)</string>
+		</dict>
+		<key>list_item_0</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#unnumbered_list_item_0</string>
+				</dict>
+			</array>
+		</dict>
+		<key>list_item_0_blocks</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#list_fenced_code_2</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#list_item_paragraph</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#list_item_continuation_2</string>
+				</dict>
+			</array>
+		</dict>
+		<key>list_item_2</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#unnumbered_list_item_2</string>
+				</dict>
+			</array>
+		</dict>
+		<key>list_item_3</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#unnumbered_list_item_3</string>
+				</dict>
+			</array>
+		</dict>
+		<key>list_item_continuation_2</key>
+		<dict>
+			<key>begin</key>
+			<string>^  (?=\S)</string>
+			<key>end</key>
+			<string>^(?=\s*$)</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -916,6 +994,31 @@
 					<string>#inline</string>
 				</dict>
 			</array>
+		</dict>
+		<key>list_item_paragraph</key>
+		<dict>
+			<key>begin</key>
+			<string>\G(?!\s*([*+-]|\d[\.\)]) )(?!\s*$)(?=\s*\S)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>QQQ1</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>wQ</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>QQQ2</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta1.paragraph.list.markdown</string>
 		</dict>
 		<key>quoted_block</key>
 		<dict>
@@ -1005,10 +1108,12 @@
 				</dict>
 			</array>
 		</dict>
-		<key>unnumbered_list_item</key>
+		<key>unnumbered_list_item_0</key>
 		<dict>
+			<key>applyEndPatternLast</key>
+			<integer>1</integer>
 			<key>begin</key>
-			<string>^[ ]{,3}([*+-])[ ]</string>
+			<string>^([*+-])[ ]</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -1018,14 +1123,28 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)</string>
-			<key>name</key>
-			<string>meta.paragraph.list.markdown</string>
+			<string>^</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>ULI0</string>
+				</dict>
+			</dict>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#inline</string>
+					<string>#list_fenced_code_2</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#list_item_paragraph</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#list_item_continuation_2</string>
 				</dict>
 			</array>
 		</dict>

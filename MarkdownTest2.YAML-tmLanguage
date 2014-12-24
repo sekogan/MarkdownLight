@@ -5,10 +5,27 @@ fileTypes: [mdown, markdown, markdn, md]
 uuid: 0A1D9875-B448-11D9-BD50-000D93B6E43D
 
 patterns:
+# - include: '#aaa'
 - include: '#raw_indented_block'
 - include: '#block'
 
 repository:
+  # aaa:
+  #   begin: ^(?=A)
+  #   end: ^
+  #   name: aaa
+  #   applyEndPatternLast: 1
+  #   patterns:
+  #   - include: '#a'
+  #   - include: '#b'
+
+  # a:
+  #   match: A
+  #   name: a
+  # b:
+  #   match: ^B.*$
+  #   name: b
+
   raw_indented_block:
     name: markup.raw.block.markdown
     match: ([ ]{4}|\t)\s*\S.*$\n?
@@ -16,10 +33,12 @@ repository:
   block:
     begin: ^(?=\s*\S+)
     end: ^(?=\s*$)
+    name: BLOCK
+    applyEndPatternLast: 1
     patterns:
     - include: '#fenced_block'
     - include: '#quoted_block'
-    - include: '#list_item'
+    - include: '#list'
     - include: '#heading'
     - include: '#html_block'
     - include: '#inline'
@@ -71,39 +90,130 @@ repository:
 
 # --- lists ---
 
-  list_item:
-    begin: ^(?=[ ]{,3}([*+-]|\d+\.)[ ])
-    end: ^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\S)
+  list:
+    begin: ^(?=([*+-]|\d[\.\)]) )
+    end: ^
+    applyEndPatternLast: 1
+    name: LIST
     patterns:
-    - include: '#numbered_list_item'
-    - include: '#unnumbered_list_item'
-    - include: '#fenced_block'
-    - include: '#list_item_continuation'
+    - include: '#list_item_0'
+    # - include: '#fenced_block'
+    # - include: '#list_item_continuation'
 
-  list_item_continuation:
-    name: meta.paragraph.list.markdown
-    begin: ^(?=\s+\S)
-    end: ^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)
+  list_item_0:
     patterns:
-    - include: '#inline'
+    - include: '#unnumbered_list_item_0'
+    # - include: '#numbered_list_item_0'
 
-  unnumbered_list_item:
-    name: meta.paragraph.list.markdown
-    begin: ^[ ]{,3}([*+-])[ ]
+  list_item_2:
+    patterns:
+    - include: '#unnumbered_list_item_2'
+    # - include: '#numbered_list_item_2'
+
+  list_item_3:
+    patterns:
+    - include: '#unnumbered_list_item_3'
+    # - include: '#numbered_list_item_3'
+  
+  unnumbered_list_item_0:
+    begin: ^([*+-])[ ]
     beginCaptures:
       '1': {name: punctuation.definition.list_item.markdown}
-    end: ^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)
+    end: ^
+    endCaptures:
+      '0': {name: ULI0}
+    applyEndPatternLast: 1
+    patterns:
+    # - include: '#list_item_2'
+    - include: '#list_fenced_code_2'
+    - include: '#list_item_paragraph'
+    - include: '#list_item_continuation_2'
+    # - include: '#list_item_0_blocks'
+
+  list_item_0_blocks:
+    patterns:
+    # - include: '#list_item_2'
+    - include: '#list_fenced_code_2'
+    - include: '#list_item_paragraph'
+    - include: '#list_item_continuation_2'
+
+  list_item_paragraph:
+    name: meta1.paragraph.list.markdown
+    begin: '\G(?!\s*([*+-]|\d[\.\)]) )(?!\s*$)(?=\s*\S)'
+    end: 'wQ'
+    beginCaptures:
+      '0': {name: QQQ1}
+    endCaptures:
+      '0': {name: QQQ2}
+    # applyEndPatternLast: 1
+    # patterns:
+    # - include: '#inline'
+
+  list_item_continuation_2:
+    name: LI_CONT2
+    begin: '^\s*$'
+    end: '^(?!  \s*\S)'
+    # applyEndPatternLast: 1
+    # patterns:
+    # - include: '#list_item_0_blocks'
+
+
+  list_fenced_code_2:
+    name: FENCED1
+    begin: '(?:\G|^  )((`{3,}|~{3,})\s*([^\s`~]*)\s*$\n)'
+    beginCaptures:
+      '1': {name: markup.raw.block.markdown markup.raw.block.fenced.markdown}
+      '2': {name: punctuation.definition.fenced.markdown}
+      '3': {name: variable.language.fenced.markdown}
+    end: '^(?:(?= ?\S)|  ((\1)\s*$\n?))'
+    endCaptures:
+      '1': {name: markup.raw.block.markdown markup.raw.block.fenced.markdown}
+      '2': {name: punctuation.definition.fenced.markdown}
+    patterns:
+    - include: '#list_fenced_code_2_content'
+
+  list_fenced_code_2_content:
+    match: '^(?:  (.*$\n?)|\s*$)'
+    captures:
+      '1': {name: markup.raw.block.markdown markup.raw.block.fenced.markdown}
+
+    # - name: markup.raw.block.markdown markup.raw.block.fenced.markdown
+    #   begin: (`{3,}|~{3,})\s*[^\s`~]*\s*$
+    #   end: ^\s*(\1)\s*$\n
+    #   captures:
+    #     '1': {name: punctuation.definition.fenced.markdown}
+    #     '2': {name: variable.language.fenced.markdown}
+
+
+  # numbered_list_item_0:
+  #   name: meta.paragraph.list.markdown
+  #   begin: ^(\d[\.\)])[ ]
+  #   beginCaptures:
+  #     '1': {name: punctuation.definition.list_item.markdown punctuation.definition.list_item.number.markdown}
+  #   end: ^
+  #   applyEndPatternLast: 1
+  #   patterns:
+  #   - include: '#inline'
+    # - include: '#list_item_3'
+  #   - include: '#list_item_continuation_3'
+
+
+  # list_item:
+  #   begin: ^(?= {,3}([*+-]|\d+[\.\)]) )
+  #   end: ^(?= {,3}([*+-]|\d+[\.\)]) |\S)
+  #   patterns:
+  #   - include: '#numbered_list_item'
+  #   - include: '#unnumbered_list_item'
+  #   - include: '#fenced_block'
+  #   - include: '#list_item_continuation'
+
+  list_item_continuation_2:
+    # name: meta.paragraph.list.markdown
+    begin: ^  (?=\S)
+    end: ^(?=\s*$)
     patterns:
     - include: '#inline'
 
-  numbered_list_item:
-    name: meta.paragraph.list.markdown
-    begin: ^[ ]{,3}(\d+\.)[ ]
-    beginCaptures:
-      '1': {name: punctuation.definition.list_item.markdown punctuation.definition.list_item.number.markdown}
-    end: ^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\s*$)
-    patterns:
-    - include: '#inline'
 
 # --- lists ---
 
@@ -371,8 +481,8 @@ repository:
       patterns:
       - include: source.python
     - name: markup.raw.block.markdown markup.raw.block.fenced.markdown
-      begin: (\s*```)\s*(\w*)\s*$
-      end: (\1)\n
+      begin: (`{3,}|~{3,})\s*[^\s`~]*\s*$
+      end: ^\s*(\1)\s*$\n
       captures:
         '1': {name: punctuation.definition.fenced.markdown}
         '2': {name: variable.language.fenced.markdown}
