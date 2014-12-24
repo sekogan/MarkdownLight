@@ -393,6 +393,18 @@ dcdcdd - light gray
 
 		<dict>
 			<key>name</key>
+			<string>Manual line break</string>
+			<key>scope</key>
+			<string>meta.dummy.line-break</string>
+			<key>settings</key>
+			<dict>
+				<key>background</key>
+				<string>#f0f0f0</string>
+			</dict>
+		</dict>
+
+		<dict>
+			<key>name</key>
 			<string>List Items</string>
 			<key>scope</key>
 			<string>meta.paragraph.list</string>

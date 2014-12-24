@@ -112,6 +112,7 @@ repository:
     - include: '#bold'
     - include: '#italic'
     - include: '#strikethrough'
+    - include: '#manual_line_break'
     - include: text.html.basic
 
   escape:
@@ -183,6 +184,10 @@ repository:
       '0': {name: punctuation.definition.strikethrough.markdown}
     patterns:
     - include: '#inline'
+
+  manual_line_break:
+    name: meta.dummy.line-break
+    match: '  +$'
 
 # --- /inline ---
 

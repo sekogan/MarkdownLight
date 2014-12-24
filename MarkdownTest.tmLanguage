@@ -775,6 +775,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#manual_line_break</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>text.html.basic</string>
 				</dict>
 			</array>
@@ -897,6 +901,13 @@
 					<string>#inline</string>
 				</dict>
 			</array>
+		</dict>
+		<key>manual_line_break</key>
+		<dict>
+			<key>match</key>
+			<string>  +$</string>
+			<key>name</key>
+			<string>meta.dummy.line-break</string>
 		</dict>
 		<key>numbered_list_item</key>
 		<dict>
