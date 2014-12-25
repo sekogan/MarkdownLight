@@ -48,6 +48,8 @@ AA *__AB__* AC
 BA _**BB**_ BC
 CA **_CB_** CC
 DA __*DB*__ DC
+EA ***EB*** EC
+FA ___FB___ FC
 ''')
         self.check_eq_scope(r'\*__AB__\*', 'markup.italic')
         self.check_eq_scope(r'_\*\*BB\*\*_', 'markup.italic')
@@ -56,6 +58,10 @@ DA __*DB*__ DC
         self.check_eq_scope(r'\*\*_CB_\*\*', 'markup.bold')
         self.check_eq_scope(r'__\*DB\*__', 'markup.bold')
         self.check_eq_scope(r'\*+|_+', 'punctuation.definition')
+        self.check_eq_scope(r'\*\*\*EB\*\*\*', 'markup.bold')
+        self.check_eq_scope(r'\*\*\*EB\*\*\*', 'markup.italic')
+        self.check_eq_scope(r'___FB___', 'markup.bold')
+        self.check_eq_scope(r'___FB___', 'markup.italic')
         self.check_default([ r'[A-Z]A ', r' [A-Z]C\n' ])
 
     def test_multiline_markup_not_supported(self):
@@ -119,6 +125,12 @@ K "**L**" (**M**) '**N**' O
     def test_inline_markup_does_not_work_inside_words(self):
         self.set_text('A_B C_D_E')
         self.check_default('.+')
+
+    def test_cases_where_inline_markup_should_not_work(self):
+        self.set_text('''
+A ____ B
+''')
+        self.check_default('^.+$')
 
     def test_headings(self):
         self.set_text('''
@@ -562,18 +574,23 @@ E~~F~~
 *__~~A~~__*
 *~~__B__~~*
 ~~*__C__*~~
+___~~D~~___
+~~___E___~~
 Z
 ''')
         self.check_eq_scope([
-            r'~~A~~', r'~~__B__~~', r'~~\*__C__\*~~'
+            r'~~A~~', r'~~__B__~~', r'~~\*__C__\*~~',
+            r'~~D~~', r'~~___E___~~'
             ], 'markup.strikethrough')
         self.check_eq_scope([
-            r'__~~A~~__', r'__B__', r'__C__'
+            r'__~~A~~__', r'__B__', r'__C__',
+            r'___~~D~~___', r'___E___'
             ], 'markup.bold')
         self.check_eq_scope([
-            r'\*__~~A~~__\*', r'\*~~__B__~~\*', r'\*__C__\*'
+            r'\*__~~A~~__\*', r'\*~~__B__~~\*', r'\*__C__\*',
+            r'___~~D~~___', r'___E___'
             ], 'markup.italic')
-        self.check_eq_scope(r'~~|__|\*', 'punctuation.definition')
+        self.check_eq_scope(r'~+|_+|\*+', 'punctuation.definition')
         self.check_default('Z')
 
     def test_html_tags(self):
@@ -600,3 +617,40 @@ A<br>
         self.set_text('<a>_A_</a>')
         self.check_eq_scope('_A_', 'markup.italic')
         self.check_eq_scope([ '<a>', '</a>' ], 'meta.tag')
+
+    def test_horisontal_lines(self):
+        self.set_text('''
+***
+
+* * *
+
+___
+
+ __ __ __
+
+  - - - 
+
+   ----------------      
+
+---_---
+
+Z
+''')
+        self.check_eq_scope([
+            r'\*\*\*\n',
+            r'\* \* \*\n',
+            r'___\n',
+            r' __ __ __\n',
+            r'  - - - \n',
+            r'   -----+ +\n'
+            ], 'meta.separator')
+        self.check_default(['---_---', 'Z'])
+
+    def test_horisontal_lines_breaks_paragraphs(self):
+        self.set_text('''
+A
+---
+Z
+''')
+        self.check_eq_scope('---\n', 'meta.separator')
+        self.check_default(['A', 'Z'])

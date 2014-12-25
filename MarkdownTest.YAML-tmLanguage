@@ -18,8 +18,9 @@ repository:
     patterns:
     - include: '#fenced_block'
     - include: '#quoted_block'
-    - include: '#list_item'
+    - include: '#horizontal_rule'
     - include: '#heading'
+    - include: '#list_item'
     - include: '#html_block'
     - include: '#inline'
 
@@ -32,6 +33,10 @@ repository:
     patterns:
     - include: $self
     - include: '#inline'
+
+  horizontal_rule:
+    name: meta.separator.markdown
+    match: '^\s*+([-_*])\s*+(?:\1\s*){2,}+$'
 
   heading:
     name: markup.heading.markdown
@@ -57,7 +62,7 @@ repository:
 
   raw_indented_block:
     name: markup.raw.block.markdown
-    match: ([ ]{4}|\t)\s*\S.*$\n?
+    match: '^(?:[ ]{4}|\t)\s*\S.*$\n?'
 
 # --- /blocks ---
 
@@ -109,6 +114,7 @@ repository:
     - include: '#raw_inline'
     - include: '#link'
     - include: '#url'
+    - include: '#bold_italic'
     - include: '#bold'
     - include: '#italic'
     - include: '#strikethrough'
@@ -146,13 +152,26 @@ repository:
     name: markup.underline.link.markdown
     match: (http|https|ftp)://([^\.\s]+\.)+[^\.\s]+(\?\S*)?
 
+  bold_italic:
+    name: markup.bold.markdown markup.italic.markdown
+    begin: |
+      (?x)
+      (?<=^|_|\W)
+      (\*\*\*|___)
+      (?=\S*?[^\W_](?:.*?[^\W_])?\S*?\1[_\*]*($|\W))
+    end: (?<=\S)\1(?=[_\*]*($|\W))
+    captures:
+      '0': {name: punctuation.definition.bold.markdown punctuation.definition.italic.markdown}
+    patterns:
+    - include: '#inline'
+
   bold:
     name: markup.bold.markdown
     begin: |
       (?x)
       (?<=^|_|\W)
       (\*\*|__)
-      (?=[_\*]*(\S|\\.)(.*?(\S|\\.)[_\*]*)?\1[_\*]*($|\W))
+      (?=\S*?[^\W_](?:.*?[^\W_])?\S*?\1[_\*]*($|\W))
     end: (?<=\S)\1(?=[_\*]*($|\W))
     captures:
       '0': {name: punctuation.definition.bold.markdown}
@@ -165,7 +184,7 @@ repository:
       (?x)
       (?<=^|_|\W)
       (\*|_)
-      (?=[_\*]*(\S|\\.)(.*?(\S|\\.)[_\*]*)?\1[_\*]*($|\W))
+      (?=\S*?[^\W_](?:.*?[^\W_])?\S*?\1[_\*]*($|\W))
     end: (?<=\S)\1(?=[_\*]*($|\W))
     captures:
       '0': {name: punctuation.definition.italic.markdown}
@@ -178,7 +197,7 @@ repository:
       (?x)
       (?<=^|_|\W)
       (~~)
-      (?=[_\*]*(\S|\\.)(.*?(\S|\\.)[_\*]*)?\1[_\*]*($|\W))
+      (?=\S*?[^\W_](?:.*?[^\W_])?\S*?\1[_\*]*($|\W))
     end: (?<=\S)\1(?=[_\*]*($|\W))
     captures:
       '0': {name: punctuation.definition.strikethrough.markdown}

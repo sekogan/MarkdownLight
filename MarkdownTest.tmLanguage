@@ -42,11 +42,15 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#list_item</string>
+					<string>#horizontal_rule</string>
 				</dict>
 				<dict>
 					<key>include</key>
 					<string>#heading</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#list_item</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -64,7 +68,7 @@
 			<string>(?x)
 (?&lt;=^|_|\W)
 (\*\*|__)
-(?=[_\*]*(\S|\\.)(.*?(\S|\\.)[_\*]*)?\1[_\*]*($|\W))
+(?=\S*?[^\W_](?:.*?[^\W_])?\S*?\1[_\*]*($|\W))
 </string>
 			<key>captures</key>
 			<dict>
@@ -78,6 +82,34 @@
 			<string>(?&lt;=\S)\1(?=[_\*]*($|\W))</string>
 			<key>name</key>
 			<string>markup.bold.markdown</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#inline</string>
+				</dict>
+			</array>
+		</dict>
+		<key>bold_italic</key>
+		<dict>
+			<key>begin</key>
+			<string>(?x)
+(?&lt;=^|_|\W)
+(\*\*\*|___)
+(?=\S*?[^\W_](?:.*?[^\W_])?\S*?\1[_\*]*($|\W))
+</string>
+			<key>captures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.bold.markdown punctuation.definition.italic.markdown</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?&lt;=\S)\1(?=[_\*]*($|\W))</string>
+			<key>name</key>
+			<string>markup.bold.markdown markup.italic.markdown</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -720,6 +752,13 @@
 				</dict>
 			</array>
 		</dict>
+		<key>horizontal_rule</key>
+		<dict>
+			<key>match</key>
+			<string>^\s*+([-_*])\s*+(?:\1\s*){2,}+$</string>
+			<key>name</key>
+			<string>meta.separator.markdown</string>
+		</dict>
 		<key>html_block</key>
 		<dict>
 			<key>begin</key>
@@ -763,6 +802,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#bold_italic</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#bold</string>
 				</dict>
 				<dict>
@@ -789,7 +832,7 @@
 			<string>(?x)
 (?&lt;=^|_|\W)
 (\*|_)
-(?=[_\*]*(\S|\\.)(.*?(\S|\\.)[_\*]*)?\1[_\*]*($|\W))
+(?=\S*?[^\W_](?:.*?[^\W_])?\S*?\1[_\*]*($|\W))
 </string>
 			<key>captures</key>
 			<dict>
@@ -964,7 +1007,7 @@
 		<key>raw_indented_block</key>
 		<dict>
 			<key>match</key>
-			<string>([ ]{4}|\t)\s*\S.*$\n?</string>
+			<string>^(?:[ ]{4}|\t)\s*\S.*$\n?</string>
 			<key>name</key>
 			<string>markup.raw.block.markdown</string>
 		</dict>
@@ -999,7 +1042,7 @@
 			<string>(?x)
 (?&lt;=^|_|\W)
 (~~)
-(?=[_\*]*(\S|\\.)(.*?(\S|\\.)[_\*]*)?\1[_\*]*($|\W))
+(?=\S*?[^\W_](?:.*?[^\W_])?\S*?\1[_\*]*($|\W))
 </string>
 			<key>captures</key>
 			<dict>
