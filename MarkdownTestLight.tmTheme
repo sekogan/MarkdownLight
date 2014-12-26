@@ -4,12 +4,12 @@
 <dict>
 <!--
 cc342b - red
-0087cf - blue
+3971ed - blue
 dcdcdd - light gray
 828a95 - medium gray
 373b41 - dark gray
 651d0a - brown
-0daea2 - cyan
+034d7b - dark blue
 -->
 
 	<key>author</key>
@@ -411,7 +411,7 @@ dcdcdd - light gray
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
-				<string>#0daea2</string>
+				<string>#034d7b</string>
 			</dict>
 		</dict>
 		
@@ -594,7 +594,7 @@ dcdcdd - light gray
 				<key>fontStyle</key>
 				<string>underline</string>
 				<key>foreground</key>
-				<string>#0087cf</string>
+				<string>#3971ed</string>
 			</dict>
 		</dict>
 		<dict>
