@@ -499,19 +499,19 @@ Z
         self.check_eq_scope(r'```\nB\b\n```\n', 'markup.raw.block.fenced')
         self.check_default('Z')
 
-    def test_inline_link(self):
+    def test_inline_links(self):
         self.set_text('''
 [A](B)
-[A]  (B)
+[C]  (D)
+[E](F "G")
 Z
 ''')
         self.check_eq_scope(r'\[A\]\(B\)', 'meta.link.inline')
-        self.check_eq_scope(r'\[A\]\s+\(B\)', 'meta.link.inline')
-        self.check_eq_scope('A', 'string.other.link.title')
-        self.check_eq_scope('B', 'markup.underline.link')
-        self.check_eq_scope(r'\[', 'punctuation.definition.string.begin')
-        self.check_eq_scope(r'\]', 'punctuation.definition.string.end')
-        self.check_eq_scope([ r'\(', r'\)' ], 'punctuation.definition.metadata')
+        self.check_eq_scope(r'\[C\]\s+\(D\)', 'meta.link.inline')
+        self.check_eq_scope(list('ACE'), 'string.other.link.title')
+        self.check_eq_scope(list('BDF'), 'markup.underline.link')
+        self.check_eq_scope('G', 'string.other.link.description.title')
+        self.check_eq_scope(r'[\[\]()"]', 'punctuation.definition')
         self.check_default('Z')
 
     def test_reference_links(self):
@@ -587,6 +587,7 @@ http://M.N?O=P
 Z
 ''')
         self.check_eq_scope(r'^.+://.+$', 'markup.underline.link')
+        self.check_eq_scope(r'^.+://.+$', 'meta.link.inet')
         self.check_default('Z')
 
     def test_unsupported_urls(self):
@@ -596,6 +597,16 @@ ssh://B.C
 http://D?E=F
 ''')
         self.check_default('.+')
+
+    def test_urls_in_brackes(self):
+        self.set_text('''
+<http://A.B>
+Z
+''')
+        self.check_eq_scope(r'http://A\.B', 'markup.underline.link')
+        self.check_eq_scope(r'^.+://.+$', 'meta.link.inet')
+        self.check_eq_scope(r'[<>]', 'punctuation.definition')
+        self.check_default('Z')
 
     def test_strikethrough(self):
         self.set_text('''

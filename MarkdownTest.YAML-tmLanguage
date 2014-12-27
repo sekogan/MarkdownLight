@@ -135,6 +135,7 @@ repository:
     - include: '#inline_link'
     - include: '#implicit_link'
     - include: '#reference_link'
+    - include: '#url_in_brackets'
     - include: '#url'
     - include: '#bold_italic'
     - include: '#bold'
@@ -161,12 +162,15 @@ repository:
     begin: \[(?=[^\]]*\]\s*\([^\)]*\))
     beginCaptures:
       '0': {name: punctuation.definition.string.begin.markdown}
-    end: (\])\s*(\()\s*([^\)]*)\s*(\))
+    end: (\])\s*(\()\s*([^\)]*?)(?:\s+(")(.*)("))?\s*(\))
     endCaptures:
       '1': {name: punctuation.definition.string.end.markdown}
       '2': {name: punctuation.definition.metadata.markdown}
       '3': {name: markup.underline.link.markdown}
-      '4': {name: punctuation.definition.metadata.markdown}
+      '4': {name: punctuation.definition.string.begin.markdown}
+      '5': {name: string.other.link.description.title.markdown}
+      '6': {name: punctuation.definition.string.end.markdown}
+      '7': {name: punctuation.definition.metadata.markdown}
     patterns:
     - include: '#inline'
 
@@ -195,9 +199,17 @@ repository:
     patterns:
     - include: '#inline'
 
+  url_in_brackets:
+    match: (<)((?:http|https|ftp)://(?:[^\.\s]+\.)+[^\.\s]+(?:\?\S*)?)(>)
+    name: meta.link.inet.markdown
+    captures:
+      '1': {name: punctuation.definition.link.markdown}
+      '2': {name: markup.underline.link.markdown}
+      '3': {name: punctuation.definition.link.markdown}
+
   url:
-    name: markup.underline.link.markdown
-    match: (http|https|ftp)://([^\.\s]+\.)+[^\.\s]+(\?\S*)?
+    match: (?:http|https|ftp)://(?:[^\.\s]+\.)+[^\.\s]+(?:\?\S*)?
+    name: meta.link.inet.markdown markup.underline.link.markdown
 
   bold_italic:
     name: markup.bold.markdown markup.italic.markdown

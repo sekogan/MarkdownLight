@@ -845,6 +845,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#url_in_brackets</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#url</string>
 				</dict>
 				<dict>
@@ -888,7 +892,7 @@
 			<key>contentName</key>
 			<string>string.other.link.title.markdown</string>
 			<key>end</key>
-			<string>(\])\s*(\()\s*([^\)]*)\s*(\))</string>
+			<string>(\])\s*(\()\s*([^\)]*?)(?:\s+(")(.*)("))?\s*(\))</string>
 			<key>endCaptures</key>
 			<dict>
 				<key>1</key>
@@ -907,6 +911,21 @@
 					<string>markup.underline.link.markdown</string>
 				</dict>
 				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.begin.markdown</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>string.other.link.description.title.markdown</string>
+				</dict>
+				<key>6</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.end.markdown</string>
+				</dict>
+				<key>7</key>
 				<dict>
 					<key>name</key>
 					<string>punctuation.definition.metadata.markdown</string>
@@ -1270,9 +1289,34 @@
 		<key>url</key>
 		<dict>
 			<key>match</key>
-			<string>(http|https|ftp)://([^\.\s]+\.)+[^\.\s]+(\?\S*)?</string>
+			<string>(?:http|https|ftp)://(?:[^\.\s]+\.)+[^\.\s]+(?:\?\S*)?</string>
 			<key>name</key>
-			<string>markup.underline.link.markdown</string>
+			<string>meta.link.inet.markdown markup.underline.link.markdown</string>
+		</dict>
+		<key>url_in_brackets</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.link.markdown</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>markup.underline.link.markdown</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.link.markdown</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(&lt;)((?:http|https|ftp)://(?:[^\.\s]+\.)+[^\.\s]+(?:\?\S*)?)(&gt;)</string>
+			<key>name</key>
+			<string>meta.link.inet.markdown</string>
 		</dict>
 	</dict>
 	<key>scopeName</key>
