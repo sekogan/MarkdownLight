@@ -499,36 +499,69 @@ Z
         self.check_eq_scope(r'```\nB\b\n```\n', 'markup.raw.block.fenced')
         self.check_default('Z')
 
-    def test_simple_link(self):
+    def test_inline_link(self):
         self.set_text('''
 [A](B)
-C
+[A]  (B)
+Z
 ''')
         self.check_eq_scope(r'\[A\]\(B\)', 'meta.link.inline')
+        self.check_eq_scope(r'\[A\]\s+\(B\)', 'meta.link.inline')
         self.check_eq_scope('A', 'string.other.link.title')
         self.check_eq_scope('B', 'markup.underline.link')
         self.check_eq_scope(r'\[', 'punctuation.definition.string.begin')
         self.check_eq_scope(r'\]', 'punctuation.definition.string.end')
         self.check_eq_scope([ r'\(', r'\)' ], 'punctuation.definition.metadata')
-        self.check_default('C')
+        self.check_default('Z')
+
+    def test_reference_link(self):
+        self.set_text('''
+[A][B]
+[C]  [D]
+Z
+''')
+        self.check_eq_scope(r'\[A\]\[B\]', 'meta.link.reference')
+        self.check_eq_scope(r'\[C\]\s+\[D\]', 'meta.link.reference')
+        self.check_eq_scope('A', 'string.other.link.title')
+        self.check_eq_scope('B', 'constant.other.reference.link')
+        self.check_eq_scope([ r'\[', r'\]' ], 'punctuation.definition')
+        self.check_default('Z')
 
     def test_multiline_links_not_supported(self):
         self.set_text('''
 [A
 B](C)
+[D
+E][F]
 ''')
         self.check_default('.+')
 
-    def test_inline_markup_inside_link(self):
+    def test_inline_markup_inside_links(self):
         self.set_text('''
-[**_A_**](B)
-C
+[__A__](B)
+[_C_][D]
+Z
 ''')
-        self.check_eq_scope(r'^\[.+\)$', 'meta.link.inline')
-        self.check_eq_scope(r'\*\*_A_\*\*', 'markup.bold')
-        self.check_eq_scope('_A_', 'markup.italic')
-        self.check_eq_scope('B', 'markup.underline.link')
-        self.check_default('C')
+        self.check_eq_scope(r'\[__A__\]\(B\)', 'meta.link.inline')
+        self.check_eq_scope(r'\[_C_\]\[D\]', 'meta.link.reference')
+        self.check_eq_scope(r'__A__', 'markup.bold')
+        self.check_eq_scope('_C_', 'markup.italic')
+        self.check_default('Z')
+
+    def test_references(self):
+        self.set_text('''
+[A]: B "C"
+[D]:<E> 'F'
+  [K]: L (M)  
+[N]: O
+Z
+''')
+        self.check_eq_scope(r'\[.*?(?=\s*$)', 'meta.link.reference.def')
+        self.check_eq_scope(r'''[\[\]:'"()]''', 'punctuation')
+        self.check_eq_scope(list('ADKN'), 'constant.other.reference.link')
+        self.check_eq_scope(list('BELO'), 'markup.underline.link')
+        self.check_eq_scope(list('CFM'), 'string.other.link.description.title')
+        self.check_default('Z')
 
     def test_supported_urls(self):
         self.set_text('''

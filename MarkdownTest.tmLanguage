@@ -46,6 +46,10 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#reference</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#heading</string>
 				</dict>
 				<dict>
@@ -794,7 +798,11 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#link</string>
+					<string>#inline_link</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#reference_link</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -826,38 +834,10 @@
 				</dict>
 			</array>
 		</dict>
-		<key>italic</key>
+		<key>inline_link</key>
 		<dict>
 			<key>begin</key>
-			<string>(?x)
-(?&lt;=^|_|\W)
-(\*|_)
-(?=\S*?[^\W_](?:.*?[^\W_])?\S*?\1[_\*]*($|\W))
-</string>
-			<key>captures</key>
-			<dict>
-				<key>0</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.italic.markdown</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>(?&lt;=\S)\1(?=[_\*]*($|\W))</string>
-			<key>name</key>
-			<string>markup.italic.markdown</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#inline</string>
-				</dict>
-			</array>
-		</dict>
-		<key>link</key>
-		<dict>
-			<key>begin</key>
-			<string>\[(?=.*?\]\s*\(.*?\))</string>
+			<string>\[(?=[^\]]*\]\s*\([^\)]*\))</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>0</key>
@@ -869,7 +849,7 @@
 			<key>contentName</key>
 			<string>string.other.link.title.markdown</string>
 			<key>end</key>
-			<string>(\])\s*(\()\s*(.*?)\s*(\))</string>
+			<string>(\])\s*(\()\s*([^\)]*)\s*(\))</string>
 			<key>endCaptures</key>
 			<dict>
 				<key>1</key>
@@ -895,6 +875,34 @@
 			</dict>
 			<key>name</key>
 			<string>meta.link.inline.markdown</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#inline</string>
+				</dict>
+			</array>
+		</dict>
+		<key>italic</key>
+		<dict>
+			<key>begin</key>
+			<string>(?x)
+(?&lt;=^|_|\W)
+(\*|_)
+(?=\S*?[^\W_](?:.*?[^\W_])?\S*?\1[_\*]*($|\W))
+</string>
+			<key>captures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.italic.markdown</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?&lt;=\S)\1(?=[_\*]*($|\W))</string>
+			<key>name</key>
+			<string>markup.italic.markdown</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -1035,6 +1043,138 @@
 			<string>(`+)(.+?)(\1)</string>
 			<key>name</key>
 			<string>markup.raw.inline.markdown</string>
+		</dict>
+		<key>reference</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>meta.link.reference.def.markdown</string>
+				</dict>
+				<key>10</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.begin.markdown</string>
+				</dict>
+				<key>11</key>
+				<dict>
+					<key>name</key>
+					<string>string.other.link.description.title.markdown</string>
+				</dict>
+				<key>12</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.end.markdown</string>
+				</dict>
+				<key>13</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.begin.markdown</string>
+				</dict>
+				<key>14</key>
+				<dict>
+					<key>name</key>
+					<string>string.other.link.description.title.markdown</string>
+				</dict>
+				<key>15</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.end.markdown</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.constant.markdown</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>constant.other.reference.link.markdown</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.constant.markdown</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.separator.key-value.markdown</string>
+				</dict>
+				<key>6</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.link.markdown</string>
+				</dict>
+				<key>7</key>
+				<dict>
+					<key>name</key>
+					<string>markup.underline.link.markdown</string>
+				</dict>
+				<key>8</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.link.markdown</string>
+				</dict>
+				<key>9</key>
+				<dict>
+					<key>name</key>
+					<string>markup.underline.link.markdown</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>^\s*((\[)([^\]]*)(\])(:)\s*(?:(&lt;)([^&gt;]+)(&gt;)|([^&lt;&gt;\s]+))(?:\s+(?:(['"])(.*)(\10)|(\()(.*)(\))))?)\s*$</string>
+		</dict>
+		<key>reference_link</key>
+		<dict>
+			<key>begin</key>
+			<string>\[(?=[^\]]*\]\s*\[[^\]]*\])</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.begin.markdown</string>
+				</dict>
+			</dict>
+			<key>contentName</key>
+			<string>string.other.link.title.markdown</string>
+			<key>end</key>
+			<string>(\])\s*(\[)\s*([^\]]*)\s*(\])</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.end.markdown</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.constant.begin.markdown</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>constant.other.reference.link.markdown</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.constant.begin.markdown</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.link.reference.markdown</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#inline</string>
+				</dict>
+			</array>
 		</dict>
 		<key>strikethrough</key>
 		<dict>
