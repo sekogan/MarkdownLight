@@ -133,6 +133,7 @@ repository:
     - include: '#escape'
     - include: '#raw_inline'
     - include: '#inline_link'
+    - include: '#implicit_link'
     - include: '#reference_link'
     - include: '#url'
     - include: '#bold_italic'
@@ -169,18 +170,28 @@ repository:
     patterns:
     - include: '#inline'
 
+  implicit_link:
+    match: (\[)([^\]]+)(\])\s*(\[)\s*(\])
+    name: meta.link.reference.literal.markdown
+    captures:
+      '1': {name: punctuation.definition.constant.begin.markdown}
+      '2': {name: constant.other.reference.link.markdown}
+      '3': {name: punctuation.definition.constant.end.markdown}
+      '4': {name: punctuation.definition.constant.begin.markdown}
+      '5': {name: punctuation.definition.constant.end.markdown}
+
   reference_link:
     name: meta.link.reference.markdown
     contentName: string.other.link.title.markdown
-    begin: \[(?=[^\]]*\]\s*\[[^\]]*\])
+    begin: \[(?=[^\]]*\]\s*\[[^\]]+\])
     beginCaptures:
       '0': {name: punctuation.definition.string.begin.markdown}
-    end: (\])\s*(\[)\s*([^\]]*)\s*(\])
+    end: (\])\s*(\[)\s*([^\]]+)\s*(\])
     endCaptures:
       '1': {name: punctuation.definition.string.end.markdown}
       '2': {name: punctuation.definition.constant.begin.markdown}
       '3': {name: constant.other.reference.link.markdown}
-      '4': {name: punctuation.definition.constant.begin.markdown}
+      '4': {name: punctuation.definition.constant.end.markdown}
     patterns:
     - include: '#inline'
 

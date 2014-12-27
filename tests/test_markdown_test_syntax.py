@@ -514,7 +514,7 @@ Z
         self.check_eq_scope([ r'\(', r'\)' ], 'punctuation.definition.metadata')
         self.check_default('Z')
 
-    def test_reference_link(self):
+    def test_reference_links(self):
         self.set_text('''
 [A][B]
 [C]  [D]
@@ -525,6 +525,19 @@ Z
         self.check_eq_scope('A', 'string.other.link.title')
         self.check_eq_scope('B', 'constant.other.reference.link')
         self.check_eq_scope([ r'\[', r'\]' ], 'punctuation.definition')
+        self.check_default('Z')
+
+    def test_implicit_links(self):
+        self.set_text('''
+[A][]
+  [B]  []  
+Z
+''')
+        self.check_eq_scope(r'\[.*?(?=\s*$)', 'meta.link.reference.literal')
+        # self.check_eq_scope(r'\[C\]\s+\[D\]', 'meta.link.reference')
+        self.check_eq_scope(list('AB'), 'constant.other.reference.link')
+        # self.check_eq_scope('B', 'constant.other.reference.link')
+        self.check_eq_scope(r'[\[\]]', 'punctuation.definition')
         self.check_default('Z')
 
     def test_multiline_links_not_supported(self):

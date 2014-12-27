@@ -784,6 +784,41 @@
 				</dict>
 			</array>
 		</dict>
+		<key>implicit_link</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.constant.begin.markdown</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>constant.other.reference.link.markdown</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.constant.end.markdown</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.constant.begin.markdown</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.constant.end.markdown</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(\[)([^\]]+)(\])\s*(\[)\s*(\])</string>
+			<key>name</key>
+			<string>meta.link.reference.literal.markdown</string>
+		</dict>
 		<key>inline</key>
 		<dict>
 			<key>patterns</key>
@@ -799,6 +834,10 @@
 				<dict>
 					<key>include</key>
 					<string>#inline_link</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#implicit_link</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -1130,7 +1169,7 @@
 		<key>reference_link</key>
 		<dict>
 			<key>begin</key>
-			<string>\[(?=[^\]]*\]\s*\[[^\]]*\])</string>
+			<string>\[(?=[^\]]*\]\s*\[[^\]]+\])</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>0</key>
@@ -1142,7 +1181,7 @@
 			<key>contentName</key>
 			<string>string.other.link.title.markdown</string>
 			<key>end</key>
-			<string>(\])\s*(\[)\s*([^\]]*)\s*(\])</string>
+			<string>(\])\s*(\[)\s*([^\]]+)\s*(\])</string>
 			<key>endCaptures</key>
 			<dict>
 				<key>1</key>
@@ -1163,7 +1202,7 @@
 				<key>4</key>
 				<dict>
 					<key>name</key>
-					<string>punctuation.definition.constant.begin.markdown</string>
+					<string>punctuation.definition.constant.end.markdown</string>
 				</dict>
 			</dict>
 			<key>name</key>
