@@ -1,5 +1,5 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
-name: Markdown1 (Github Flavored)
+name: Markdown Light
 scopeName: text.html.markdown
 fileTypes: [mdown, markdown, markdn, md]
 uuid: 0A1D9875-B448-11D9-BD50-000D93B6E43C
@@ -23,6 +23,7 @@ repository:
     - include: '#heading'
     - include: '#list_item'
     - include: '#html_block'
+    - include: '#maybe_setext_heading'
     - include: '#inline'
 
   quoted_block:
@@ -34,6 +35,24 @@ repository:
     patterns:
     - include: $self
     - include: '#inline'
+
+  maybe_setext_heading:
+    begin: ^(?=\s*\S)
+    end: ^(?!(?:={3,}|-{3,})\s*$)
+    patterns:
+    - include: '#setext_heading_1'
+    - include: '#setext_heading_2'
+    - include: '#inline'
+
+  setext_heading_1:
+    match: ^(={3,})\s*$
+    captures:
+      '1': {name: markup.heading.1.markdown punctuation.definition.heading.markdown}
+
+  setext_heading_2:
+    match: ^(-{3,})\s*$
+    captures:
+      '1': {name: markup.heading.2.markdown punctuation.definition.heading.markdown}
 
   horizontal_rule:
     name: meta.separator.markdown
@@ -131,8 +150,11 @@ repository:
   inline:
     patterns:
     - include: '#escape'
-    - include: '#raw_inline'
-    - include: '#inline_link'
+    - include: '#inline_raw'
+    - include: '#image'
+    - include: '#implicit_image'
+    - include: '#reference_image'
+    - include: '#link'
     - include: '#implicit_link'
     - include: '#reference_link'
     - include: '#url'
@@ -148,7 +170,7 @@ repository:
     name: constant.character.escape.markdown
     match: \\[-`*_#+.!(){}\[\]\\>]
 
-  raw_inline:
+  inline_raw:
     name: markup.raw.inline.markdown
     match: (`+)(.+?)(\1)
     captures:
@@ -156,7 +178,7 @@ repository:
       '2': {name: markup.raw.inline.content.markdown}
       '3': {name: punctuation.definition.raw.markdown}
 
-  inline_link:
+  link:
     name: meta.link.inline.markdown
     contentName: string.other.link.title.markdown
     begin: \[(?=[^\]]*\]\s*\([^\)]*\))
@@ -190,6 +212,52 @@ repository:
     begin: \[(?=[^\]]*\]\s*\[[^\]]+\])
     beginCaptures:
       '0': {name: punctuation.definition.string.begin.markdown}
+    end: (\])\s*(\[)\s*([^\]]+)\s*(\])
+    endCaptures:
+      '1': {name: punctuation.definition.string.end.markdown}
+      '2': {name: punctuation.definition.constant.begin.markdown}
+      '3': {name: constant.other.reference.link.markdown}
+      '4': {name: punctuation.definition.constant.end.markdown}
+    patterns:
+    - include: '#inline'
+
+  image:
+    name: meta.image.inline.markdown
+    contentName: string.other.link.title.markdown
+    begin: (!)(\[)(?=[^\]]*\]\s*\([^\)]*\))
+    beginCaptures:
+      '1': {name: punctuation.definition.image.markdown}
+      '2': {name: punctuation.definition.string.begin.markdown}
+    end: (\])\s*(\()\s*([^\)]*?)(?:\s+(")(.*)("))?\s*(\))
+    endCaptures:
+      '1': {name: punctuation.definition.string.end.markdown}
+      '2': {name: punctuation.definition.metadata.markdown}
+      '3': {name: markup.underline.link.image.markdown}
+      '4': {name: punctuation.definition.string.begin.markdown}
+      '5': {name: string.other.link.description.title.markdown}
+      '6': {name: punctuation.definition.string.end.markdown}
+      '7': {name: punctuation.definition.metadata.markdown}
+    patterns:
+    - include: '#inline'
+
+  implicit_image:
+    match: (!)(\[)([^\]]+)(\])\s*(\[)\s*(\])
+    name: meta.image.reference.markdown
+    captures:
+      '1': {name: punctuation.definition.image.markdown}
+      '2': {name: punctuation.definition.constant.begin.markdown}
+      '3': {name: constant.other.reference.link.markdown}
+      '4': {name: punctuation.definition.constant.end.markdown}
+      '5': {name: punctuation.definition.constant.begin.markdown}
+      '6': {name: punctuation.definition.constant.end.markdown}
+
+  reference_image:
+    name: meta.image.reference.markdown
+    contentName: string.other.link.title.markdown
+    begin: (!)(\[)(?=[^\]]*\]\s*\[[^\]]+\])
+    beginCaptures:
+      '1': {name: punctuation.definition.image.markdown}
+      '2': {name: punctuation.definition.string.begin.markdown}
     end: (\])\s*(\[)\s*([^\]]+)\s*(\])
     endCaptures:
       '1': {name: punctuation.definition.string.end.markdown}

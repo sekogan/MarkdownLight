@@ -1,9 +1,9 @@
 import syntax_test
 
-class TestMarkdownTestSyntax(syntax_test.SyntaxTestCase):
+class TestMarkdownLight(syntax_test.SyntaxTestCase):
     def setUp(self):
         super().setUp()
-        self.set_syntax_file("Packages/MarkdownTest/MarkdownTest.tmLanguage")
+        self.set_syntax_file("Packages/MarkdownTest/MarkdownLight.tmLanguage")
 
     def check_default(self, patterns):
         self.check_in_single_scope(patterns, 'text')
@@ -126,7 +126,7 @@ K "**L**" (**M**) '**N**' O
         self.set_text('A_B C_D_E')
         self.check_default('.+')
 
-    def test_cases_where_inline_markup_should_not_work(self):
+    def test_inline_markup_does_not_work_without_text(self):
         self.set_text('''
 A ____ B
 ''')
@@ -151,6 +151,51 @@ O
         self.check_in_scope(list('ABCDEFKLMN# '), 'markup.heading')
         self.check_eq_scope(r'#+', 'punctuation.definition')
         self.check_default(list('GO'))
+
+    def test_setext_headings(self):
+        self.set_text('''
+A
+===
+
+B
+---
+
+C
+D
+======= 
+E
+F
+-------   
+
+Z
+''')
+        self.check_eq_scope('=+', 'markup.heading.1')
+        self.check_eq_scope('-+', 'markup.heading.2')
+        self.check_default(r'\w+')
+
+    def test_not_setext_headings(self):
+        self.set_text('''
+- A
+===
+
+> B
+---
+
+C
+ ======= 
+
+D
+--
+
+E
+- - -
+
+-------
+-------   
+
+Z
+''')
+        self.check_no_scope('.+', 'markup.heading')
 
     def test_inline_markup_inside_headings(self):
         self.set_text('''
@@ -241,7 +286,7 @@ D
         self.check_default([ r'\nA\n    B\n\n', r'D\n' ])
 
     def test_blank_line_is_not_indented_raw_block(self):
-        self.set_text('\n\n    \n\n')
+        self.set_text('\n\n        \n\n')
         self.check_default(r'\n[ ]+\n')
 
     def test_inline_raw_text(self):
@@ -272,7 +317,7 @@ C` D
         self.check_eq_scope([ r'^``', r'(?<=\w)``' ], 'punctuation.definition')
         self.check_default([ r'(?<=C``)`', r'\n' ])        
 
-    def test_inline_raw_delimiters_does_not_start_fenced_block(self):
+    def test_inline_raw_delimiters_do_not_start_fenced_block(self):
         self.set_text('''
 ```A```
 B
@@ -729,11 +774,11 @@ Z
             ], 'meta.separator')
         self.check_default(['---_---', 'Z'])
 
-    def test_horisontal_lines_breaks_paragraphs(self):
+    def test_horisontal_lines_break_paragraphs(self):
         self.set_text('''
 A
----
+- - -
 Z
 ''')
-        self.check_eq_scope('---\n', 'meta.separator')
+        self.check_eq_scope('- - -\n', 'meta.separator')
         self.check_default(['A', 'Z'])

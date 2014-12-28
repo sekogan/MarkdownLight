@@ -1,18 +1,6 @@
 {
     // Sets the colors used within the text area
-	"color_scheme": "Packages/MarkdownTest/MarkdownTestLight.tmTheme",
-
-    // Controls auto pairing of quotes, brackets etc
-	//"auto_match_enabled": true,
-
-    // Set to false to turn off the indentation guides.
-    // The color and width of the indent guides may be customized by editing
-    // the corresponding .tmTheme file, and specifying the colors "guide",
-    // "activeGuide" and "stackGuide"
-	//"draw_indent_guides": false,
-
-    // Set to false to prevent line numbers being drawn in the gutter
-	//"line_numbers": false,
+	"color_scheme": "Packages/MarkdownTest/MarkdownLight.tmTheme",
 
     // The number of spaces a tab is considered equal to
 	"tab_size": 4,
@@ -36,6 +24,7 @@
 	[
 		"md",
 		"markdown",
-		"mdown"
+		"mdown",
+		"markdn"
 	]
 }

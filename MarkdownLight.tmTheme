@@ -1,27 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<!--
-cc342b - red
-3971ed - blue
-dcdcdd - light gray
-828a95 - medium gray
-373b41 - dark gray
-651d0a - brown
-034d7b - dark blue
--->
-
 	<key>author</key>
-	<string>Sergey Kogan</string>
-	<key>name</key>
-	<string>MarkdownTestLight</string>
-	<key>uuid</key>
-	<string>181d9802-1ae0-422d-9a5a-836b2e3dd100</string>
+	<string>Sergey Kogan. Theme is based on "Base16 Google Light" by Seth Wright (http://sethawright.com)</string>
 	<key>colorSpaceName</key>
 	<string>sRGB</string>
-	<key>semanticClass</key>
-	<string>theme.light.markdown</string>
 	<key>gutterSettings</key>
 	<dict>
 		<key>background</key>
@@ -35,7 +19,11 @@ dcdcdd - light gray
 		<key>selectionForeground</key>
 		<string>#c5c8c6</string>
 	</dict>
- 	<key>settings</key>
+	<key>name</key>
+	<string>Markdown Light</string>
+	<key>semanticClass</key>
+	<string>theme.light.markdown</string>
+	<key>settings</key>
 	<array>
 		<dict>
 			<key>settings</key>
@@ -52,11 +40,8 @@ dcdcdd - light gray
 				<string>#b4b7b455</string>
 				<key>selection</key>
 				<string>#dcdcdd</string>
-				<!--string>#e0e0e0</string-->
 			</dict>
 		</dict>
-
-
 		<dict>
 			<key>name</key>
 			<string>Text</string>
@@ -83,7 +68,8 @@ dcdcdd - light gray
 			<key>name</key>
 			<string>Punctuation</string>
 			<key>scope</key>
-			<string>punctuation.definition.string, punctuation.definition.variable, punctuation.definition.string, punctuation.definition.parameters, punctuation.definition.string, punctuation.definition.array</string>
+			<string>punctuation.definition.string, punctuation.definition.variable, punctuation.definition.string, punctuation.definition.parameters, punctuation.definition.string, punctuation.definition.array
+</string>
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
@@ -257,6 +243,17 @@ dcdcdd - light gray
 		</dict>
 		<dict>
 			<key>name</key>
+			<string>Image Punctuation</string>
+			<key>scope</key>
+			<string>punctuation.definition.image</string>
+			<key>settings</key>
+			<dict>
+				<key>foreground</key>
+				<string>#F96A38</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>name</key>
 			<string>Tags</string>
 			<key>scope</key>
 			<string>entity.name.tag</string>
@@ -319,6 +316,8 @@ dcdcdd - light gray
 			<dict>
 				<key>fontStyle</key>
 				<string>bold</string>
+				<key>foreground</key>
+				<string>#CC342B</string>
 			</dict>
 		</dict>
 		<dict>
@@ -352,7 +351,7 @@ dcdcdd - light gray
 			<dict>
 				<key>fontStyle</key>
 				<string>bold</string>
- 			</dict>
+			</dict>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -383,14 +382,10 @@ dcdcdd - light gray
 			<string>markup.raw</string>
 			<key>settings</key>
 			<dict>
-				<!--key>foreground</key>
-				<string>#828a95</string-->
-
 				<key>background</key>
 				<string>#f0f0f0</string>
 			</dict>
 		</dict>
-
 		<dict>
 			<key>name</key>
 			<string>Manual line break</string>
@@ -402,7 +397,6 @@ dcdcdd - light gray
 				<string>#f0f0f0</string>
 			</dict>
 		</dict>
-
 		<dict>
 			<key>name</key>
 			<string>List Items</string>
@@ -414,17 +408,13 @@ dcdcdd - light gray
 				<string>#034d7b</string>
 			</dict>
 		</dict>
-		
 		<dict>
 			<key>name</key>
 			<string>Code</string>
 			<key>scope</key>
 			<string>markup.raw.inline</string>
 			<key>settings</key>
-			<dict>
-				<!--key>foreground</key>
-				<string>#828a95</string-->
-			</dict>
+			<dict/>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -441,7 +431,8 @@ dcdcdd - light gray
 			<key>name</key>
 			<string>Fenced Code Block</string>
 			<key>scope</key>
-			<string>punctuation.definition.raw.markdown, punctuation.definition.fenced.markdown, variable.language.fenced.markdown</string>
+			<string>punctuation.definition.raw.markdown, punctuation.definition.fenced.markdown, variable.language.fenced.markdown
+</string>
 			<key>settings</key>
 			<dict>
 				<key>foreground</key>
@@ -524,9 +515,9 @@ dcdcdd - light gray
 			<key>settings</key>
 			<dict>
 				<key>background</key>
-				<string>#dcdcdd</string>
+				<string>#f0f0f0</string>
 				<key>foreground</key>
-				<string>#373b41</string>
+				<string>#828a95</string>
 			</dict>
 		</dict>
 		<dict>
@@ -693,9 +684,8 @@ dcdcdd - light gray
 				<string>#1d1f21</string>
 			</dict>
 		</dict>
-
-
-
 	</array>
+	<key>uuid</key>
+	<string>181d9802-1ae0-422d-9a5a-836b2e3dd100</string>
 </dict>
 </plist>
