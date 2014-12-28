@@ -135,8 +135,8 @@ repository:
     - include: '#inline_link'
     - include: '#implicit_link'
     - include: '#reference_link'
-    - include: '#url_in_brackets'
     - include: '#url'
+    - include: '#email'
     - include: '#bold_italic'
     - include: '#bold'
     - include: '#italic'
@@ -199,17 +199,31 @@ repository:
     patterns:
     - include: '#inline'
 
-  url_in_brackets:
-    match: (<)((?:http|https|ftp)://(?:[^\.\s]+\.)+[^\.\s]+(?:\?\S*)?)(>)
+  url:
+    match: |
+      (?xi)(?:
+        (<)((?:http|https|ftp)://[-a-z\d_%~]++(?:\.[-a-z\d_%~]++)++(?::\d++)?(?:/[-a-z\d_%~/\.?=&#]*+)?)(>)
+        |  ((?:http|https|ftp)://[-a-z\d_%~]++(?:\.[-a-z\d_%~]++)++(?::\d++)?(?:/[-a-z\d_%~/\.?=&#]*+)?)
+      )
     name: meta.link.inet.markdown
     captures:
       '1': {name: punctuation.definition.link.markdown}
       '2': {name: markup.underline.link.markdown}
       '3': {name: punctuation.definition.link.markdown}
+      '4': {name: markup.underline.link.markdown}
 
-  url:
-    match: (?:http|https|ftp)://(?:[^\.\s]+\.)+[^\.\s]+(?:\?\S*)?
-    name: meta.link.inet.markdown markup.underline.link.markdown
+  email:
+    match: |
+      (?xi)(?:
+        (<)((?:mailto:)?[-a-z\d_%~\.]++@[-a-z\d_%~]++(?:\.[-a-z\d_%~]++)++)(>)
+        |  ((?:mailto:)?[-a-z\d_%~\.]++@[-a-z\d_%~]++(?:\.[-a-z\d_%~]++)++)
+      )
+    name: meta.link.email.markdown
+    captures:
+      '1': {name: punctuation.definition.link.markdown}
+      '2': {name: markup.underline.link.markdown}
+      '3': {name: punctuation.definition.link.markdown}
+      '4': {name: markup.underline.link.markdown}
 
   bold_italic:
     name: markup.bold.markdown markup.italic.markdown

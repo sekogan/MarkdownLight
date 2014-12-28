@@ -582,8 +582,10 @@ http://A.B
 https://C.D
 ftp://E.F
 http://H.I.J
-http://K.L?
-http://M.N?O=P
+http://K.L/
+http://M.N/O?P=Q&R=S
+http://Q.W:123
+http://Q.W.E:123/
 Z
 ''')
         self.check_eq_scope(r'^.+://.+$', 'markup.underline.link')
@@ -593,18 +595,42 @@ Z
     def test_unsupported_urls(self):
         self.set_text('''
 http://A
+http://A:80
+http://A:80.C
 ssh://B.C
-http://D?E=F
+http://D/E
+http://A?B.C
 ''')
         self.check_default('.+')
 
     def test_urls_in_brackes(self):
         self.set_text('''
 <http://A.B>
+<https://C.D>
+<ftp://E.F>
+<http://H.I.J>
+<http://K.L/>
+<http://M.N/O?P=Q&R=S>
+<http://Q.W:123>
+<http://Q.W.E:123/>
 Z
 ''')
         self.check_eq_scope(r'http://A\.B', 'markup.underline.link')
         self.check_eq_scope(r'^.+://.+$', 'meta.link.inet')
+        self.check_eq_scope(r'[<>]', 'punctuation.definition')
+        self.check_default('Z')
+
+    def test_emails(self):
+        self.set_text('''
+<A@B.C>
+<mailto:D@E.F>
+O@P.Q
+mailto:R@S.T
+Z
+''')
+        self.check_eq_scope(r'A@B.C', 'markup.underline.link')
+        self.check_eq_scope(r'mailto:R@S.T', 'markup.underline.link')
+        self.check_eq_scope(r'[^\s@]+@\S+', 'meta.link.email')
         self.check_eq_scope(r'[<>]', 'punctuation.definition')
         self.check_default('Z')
 
