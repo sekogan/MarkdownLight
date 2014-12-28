@@ -1156,9 +1156,9 @@
 		<key>list_item</key>
 		<dict>
 			<key>begin</key>
-			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ])</string>
+			<string>^(?=\s*([*+-]|\d+\.)[ ])</string>
 			<key>end</key>
-			<string>^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\S)</string>
+			<string>^(?=\s*([*+-]|\d+\.)[ ]|\S)</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -1184,7 +1184,7 @@
 			<key>begin</key>
 			<string>^(?=\s+\S)</string>
 			<key>end</key>
-			<string>^(?=[ ]{,3}(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)</string>
+			<string>^(?=\s*(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)</string>
 			<key>name</key>
 			<string>meta.paragraph.list.markdown</string>
 			<key>patterns</key>
@@ -1227,7 +1227,7 @@
 		<key>numbered_list_item</key>
 		<dict>
 			<key>begin</key>
-			<string>^[ ]{,3}(\d+\.)[ ]</string>
+			<string>^\s*(\d+\.)[ ]</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -1237,7 +1237,7 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>^(?=[ ]{,3}(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)</string>
+			<string>^(?=\s*(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)</string>
 			<key>name</key>
 			<string>meta.paragraph.list.markdown</string>
 			<key>patterns</key>
@@ -1526,7 +1526,7 @@
 		<key>unnumbered_list_item</key>
 		<dict>
 			<key>begin</key>
-			<string>^[ ]{,3}([*+-])[ ]</string>
+			<string>^\s*([*+-])[ ]</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -1536,7 +1536,7 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>^(?=[ ]{,3}(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)</string>
+			<string>^(?=\s*(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)</string>
 			<key>name</key>
 			<string>meta.paragraph.list.markdown</string>
 			<key>patterns</key>

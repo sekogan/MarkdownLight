@@ -531,6 +531,17 @@ Z
         self.check_eq_scope(r' {4}E\n {4}F\n', 'meta.paragraph.list')
         self.check_default('Z')
 
+    def test_4_spaces_before_nested_list_items(self):
+        self.set_text('''
+- A
+    - B
+        - C
+
+Z
+''')
+        self.check_eq_scope(r'- A\n {4}- B\n {8}- C\n', 'meta.paragraph.list')
+        self.check_default('Z')
+
     def test_fenced_block_is_not_part_of_a_list_item(self):
         self.set_text('''
 - A

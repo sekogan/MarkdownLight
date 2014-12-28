@@ -109,8 +109,8 @@ repository:
 # --- lists ---
 
   list_item:
-    begin: ^(?=[ ]{,3}([*+-]|\d+\.)[ ])
-    end: ^(?=[ ]{,3}([*+-]|\d+\.)[ ]|\S)
+    begin: ^(?=\s*([*+-]|\d+\.)[ ])
+    end: ^(?=\s*([*+-]|\d+\.)[ ]|\S)
     patterns:
     - include: '#numbered_list_item'
     - include: '#unnumbered_list_item'
@@ -119,26 +119,26 @@ repository:
 
   unnumbered_list_item:
     name: meta.paragraph.list.markdown
-    begin: ^[ ]{,3}([*+-])[ ]
+    begin: ^\s*([*+-])[ ]
     beginCaptures:
       '1': {name: punctuation.definition.list_item.markdown}
-    end: ^(?=[ ]{,3}(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)
+    end: ^(?=\s*(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)
     patterns:
     - include: '#inline'
 
   numbered_list_item:
     name: meta.paragraph.list.markdown
-    begin: ^[ ]{,3}(\d+\.)[ ]
+    begin: ^\s*(\d+\.)[ ]
     beginCaptures:
       '1': {name: punctuation.definition.list_item.markdown punctuation.definition.list_item.number.markdown}
-    end: ^(?=[ ]{,3}(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)
+    end: ^(?=\s*(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)
     patterns:
     - include: '#inline'
 
   list_item_continuation:
     name: meta.paragraph.list.markdown
     begin: ^(?=\s+\S)
-    end: ^(?=[ ]{,3}(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)
+    end: ^(?=\s*(?:[*+-]|\d+\.)[ ]|\s*```\s*[^\s`]*\s*$|\s*$)
     patterns:
     - include: '#inline'
 
