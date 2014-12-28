@@ -12,9 +12,13 @@ repository:
 
 # --- blocks ---
 
+  raw_indented_block:
+    name: markup.raw.block.markdown
+    match: '^(?:[ ]{4}|\t)\s*+\S.*+$\n?'
+
   block:
-    begin: ^(?=\s*\S+)
-    end: ^(?=\s*$)
+    begin: ^(?=\s*+\S)
+    end: ^(?=\s*+$)
     patterns:
     - include: '#fenced_block'
     - include: '#quoted_block'
@@ -98,10 +102,6 @@ repository:
     end: (?<=</\1>)
     patterns:
     - include: text.html.basic
-
-  raw_indented_block:
-    name: markup.raw.block.markdown
-    match: '^(?:[ ]{4}|\t)\s*\S.*$\n?'
 
 # --- /blocks ---
 

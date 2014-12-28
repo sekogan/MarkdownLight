@@ -549,40 +549,58 @@ Z
 [A](B)
 [C]  (D)
 [E](F "G")
+![A](B)
+![C]  (D)
+![E](F "G")
 Z
 ''')
-        self.check_eq_scope(r'\[A\]\(B\)', 'meta.link.inline')
-        self.check_eq_scope(r'\[C\]\s+\(D\)', 'meta.link.inline')
+        self.check_eq_scope([
+            r'^\[A\]\(B\)',
+            r'^\[C\]\s+\(D\)',
+            r'^\[E\]\(F "G"\)'
+            ], 'meta.link.inline')
+        self.check_eq_scope([
+            r'^!\[A\]\(B\)',
+            r'^!\[C\]\s+\(D\)',
+            r'^!\[E\]\(F "G"\)'
+            ], 'meta.image.inline')
         self.check_eq_scope(list('ACE'), 'string.other.link.title')
         self.check_eq_scope(list('BDF'), 'markup.underline.link')
         self.check_eq_scope('G', 'string.other.link.description.title')
-        self.check_eq_scope(r'[\[\]()"]', 'punctuation.definition')
+        self.check_eq_scope([ r'!', r'\[', r'\]' ], 'punctuation.definition')
         self.check_default('Z')
 
     def test_reference_links(self):
         self.set_text('''
 [A][B]
 [C]  [D]
+![E][F]
+![G]  [H]
 Z
 ''')
         self.check_eq_scope(r'\[A\]\[B\]', 'meta.link.reference')
         self.check_eq_scope(r'\[C\]\s+\[D\]', 'meta.link.reference')
-        self.check_eq_scope('A', 'string.other.link.title')
-        self.check_eq_scope('B', 'constant.other.reference.link')
-        self.check_eq_scope([ r'\[', r'\]' ], 'punctuation.definition')
+        self.check_eq_scope(r'!\[E\]\[F\]', 'meta.image.reference')
+        self.check_eq_scope(r'!\[G\]\s+\[H\]', 'meta.image.reference')
+        self.check_eq_scope(list('ACEG'), 'string.other.link.title')
+        self.check_eq_scope(list('BDFH'), 'constant.other.reference.link')
+        self.check_eq_scope([ r'!', r'\[', r'\]' ], 'punctuation.definition')
         self.check_default('Z')
 
     def test_implicit_links(self):
         self.set_text('''
 [A][]
   [B]  []  
+![C][]
+  ![D]  []  
 Z
 ''')
-        self.check_eq_scope(r'\[.*?(?=\s*$)', 'meta.link.reference.literal')
-        # self.check_eq_scope(r'\[C\]\s+\[D\]', 'meta.link.reference')
-        self.check_eq_scope(list('AB'), 'constant.other.reference.link')
-        # self.check_eq_scope('B', 'constant.other.reference.link')
-        self.check_eq_scope(r'[\[\]]', 'punctuation.definition')
+        self.check_eq_scope([ r'\[A\]\[\]', r'\[B\]  \[\]' ],
+            'meta.link.reference')
+        self.check_eq_scope([ r'!\[C\]\[\]', r'!\[D\]  \[\]' ],
+            'meta.image.reference')
+        self.check_eq_scope(list('ABCD'), 'constant.other.reference.link')
+        self.check_eq_scope(r'[!\[\]]', 'punctuation.definition')
         self.check_default('Z')
 
     def test_multiline_links_not_supported(self):
@@ -591,6 +609,10 @@ Z
 B](C)
 [D
 E][F]
+![A
+B](C)
+![D
+E][F]
 ''')
         self.check_default('.+')
 
@@ -598,12 +620,16 @@ E][F]
         self.set_text('''
 [__A__](B)
 [_C_][D]
+![__E__](F)
+![_G_][H]
 Z
 ''')
         self.check_eq_scope(r'\[__A__\]\(B\)', 'meta.link.inline')
         self.check_eq_scope(r'\[_C_\]\[D\]', 'meta.link.reference')
-        self.check_eq_scope(r'__A__', 'markup.bold')
-        self.check_eq_scope('_C_', 'markup.italic')
+        self.check_eq_scope(r'!\[__E__\]\(F\)', 'meta.image.inline')
+        self.check_eq_scope(r'!\[_G_\]\[H\]', 'meta.image.reference')
+        self.check_eq_scope([ '__A__', '__E__' ], 'markup.bold')
+        self.check_eq_scope([ '_C_', '_G_' ], 'markup.italic')
         self.check_default('Z')
 
     def test_references(self):

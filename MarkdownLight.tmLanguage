@@ -27,9 +27,9 @@
 		<key>block</key>
 		<dict>
 			<key>begin</key>
-			<string>^(?=\s*\S+)</string>
+			<string>^(?=\s*+\S)</string>
 			<key>end</key>
-			<string>^(?=\s*$)</string>
+			<string>^(?=\s*+$)</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -1279,7 +1279,7 @@
 		<key>raw_indented_block</key>
 		<dict>
 			<key>match</key>
-			<string>^(?:[ ]{4}|\t)\s*\S.*$\n?</string>
+			<string>^(?:[ ]{4}|\t)\s*+\S.*+$\n?</string>
 			<key>name</key>
 			<string>markup.raw.block.markdown</string>
 		</dict>
