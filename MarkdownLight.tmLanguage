@@ -1205,7 +1205,7 @@
 		<key>maybe_setext_heading</key>
 		<dict>
 			<key>begin</key>
-			<string>^(?=\s*\S)</string>
+			<string>^(?!\s*$|(?:={3,}|-{3,}))</string>
 			<key>end</key>
 			<string>^(?!(?:={3,}|-{3,})\s*$)</string>
 			<key>patterns</key>

@@ -193,6 +193,8 @@ E
 -------
 -------   
 
+========
+
 Z
 ''')
         self.check_no_scope('.+', 'markup.heading')

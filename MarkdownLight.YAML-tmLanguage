@@ -41,7 +41,7 @@ repository:
     - include: '#inline'
 
   maybe_setext_heading:
-    begin: ^(?=\s*\S)
+    begin: ^(?!\s*$|(?:={3,}|-{3,}))
     end: ^(?!(?:={3,}|-{3,})\s*$)
     patterns:
     - include: '#setext_heading_1'
