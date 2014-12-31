@@ -100,6 +100,20 @@ K "**L**" (**M**) '**N**' O
         self.check_eq_scope(r'\*+', 'punctuation.definition')
         self.check_default(r'''[AEKQ"\(\)'\.]''')
 
+    def test_inline_markup_outside_quotes_and_brackets(self):
+        self.set_text('''
+*"A"* *(B)* *'C'*
+**"D"** **(E)** **'F'**
+*"A";* *(B).* *'C':*
+**"D"!** **(E)?** **'F',**
+Z
+''')
+        self.check_eq_scope([ r'\*"A"\*', r'\*\(B\)\*', r"\*'C'\*" ], 'markup.italic')
+        self.check_eq_scope([ r'\*\*"D"\*\*', r'\*\*\(E\)\*\*', r"\*\*'F'\*\*" ], 'markup.bold')
+        self.check_eq_scope([ r'\*"A";\*', r'\*\(B\)\.\*', r"\*'C':\*" ], 'markup.italic')
+        self.check_eq_scope([ r'\*\*"D"!\*\*', r'\*\*\(E\)\?\*\*', r"\*\*'F',\*\*" ], 'markup.bold')
+        self.check_default('Z')
+
     def test_brackets_inside_inline_markup(self):
         self.set_text('''
 *A (B C)*: D
@@ -643,6 +657,20 @@ Z
         self.check_eq_scope(r'!\[_G_\]\[H\]', 'meta.image.reference')
         self.check_eq_scope([ '__A__', '__E__' ], 'markup.bold')
         self.check_eq_scope([ '_C_', '_G_' ], 'markup.italic')
+        self.check_default('Z')
+
+    def test_inline_markup_outside_links(self):
+        self.set_text('''
+**[A](X)**
+__[B][X]__
+*![C](X)*
+_![D][X]_
+Z
+''')
+        self.check_eq_scope(r'\*\*\[A\]\(X\)\*\*', 'markup.bold')
+        self.check_eq_scope(r'__\[B\]\[X\]__', 'markup.bold')
+        self.check_eq_scope(r'\*!\[C\]\(X\)\*', 'markup.italic')
+        self.check_eq_scope(r'_!\[D\]\[X\]_', 'markup.italic')
         self.check_default('Z')
 
     def test_references(self):
