@@ -3,7 +3,7 @@ import syntax_test
 class TestMarkdownLight(syntax_test.SyntaxTestCase):
     def setUp(self):
         super().setUp()
-        self.set_syntax_file("Packages/MarkdownTest/MarkdownLight.tmLanguage")
+        self.set_syntax_file("Packages/MarkdownLight/MarkdownLight.tmLanguage")
 
     def check_default(self, patterns):
         self.check_in_single_scope(patterns, 'text')

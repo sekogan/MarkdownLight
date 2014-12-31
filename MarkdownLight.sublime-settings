@@ -1,6 +1,6 @@
 {
     // Sets the colors used within the text area
-	"color_scheme": "Packages/MarkdownTest/MarkdownLight.tmTheme",
+	"color_scheme": "Packages/MarkdownLight/MarkdownLight.tmTheme",
 
     // The number of spaces a tab is considered equal to
 	"tab_size": 4,
