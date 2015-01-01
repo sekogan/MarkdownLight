@@ -20,7 +20,7 @@ Installation
 Demo
 ----
 
-![](https://github.com/sekogan/MarkdownLight/raw/master/demo/demo.png)
+![](demo/demo.png)
 
 Running The Tests
 -----------------
