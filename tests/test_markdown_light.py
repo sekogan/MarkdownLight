@@ -146,6 +146,29 @@ A ____ B
 ''')
         self.check_default('^.+$')
 
+    def test_valid_ampersands(self):
+        self.set_text('''
+&
+&&
+A & B
+A && B
+& A &B && C &&D E& F&&
+&G;
+''')
+        self.check_no_scope('^.+$', 'invalid')
+
+    def test_valid_brackets(self):
+
+        self.set_text('''
+<
+<<
+A < B
+A << B
+A<
+A<<
+''')
+        self.check_no_scope('^.+$', 'invalid')
+
     def test_headings(self):
         self.set_text('''
 # A

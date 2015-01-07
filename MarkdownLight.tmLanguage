@@ -747,34 +747,6 @@
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(\s*```)\s*(bash)\s*$</string>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.fenced.markdown</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>variable.language.fenced.markdown</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(\1)\n</string>
-					<key>name</key>
-					<string>markup.raw.block.markdown markup.raw.block.fenced.markdown</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>source.bash</string>
-						</dict>
-					</array>
-				</dict>
-				<dict>
-					<key>begin</key>
 					<string>(\s*```)\s*([^\s`]*)\s*$</string>
 					<key>captures</key>
 					<dict>
@@ -1057,6 +1029,14 @@
 				<dict>
 					<key>include</key>
 					<string>#manual_line_break</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#valid_ampersand</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#valid_bracket</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -1608,6 +1588,20 @@
 </string>
 			<key>name</key>
 			<string>meta.link.inet.markdown</string>
+		</dict>
+		<key>valid_ampersand</key>
+		<dict>
+			<key>match</key>
+			<string>&amp;(?!([a-zA-Z\d]+|#\d+|#x[\da-fA-F]+);)</string>
+			<key>name</key>
+			<string>meta.other.valid-ampersand.markdown</string>
+		</dict>
+		<key>valid_bracket</key>
+		<dict>
+			<key>match</key>
+			<string>(?i)&lt;(?![a-z\d?%:!]|/[a-z\d])</string>
+			<key>name</key>
+			<string>meta.other.valid-bracket.markdown</string>
 		</dict>
 	</dict>
 	<key>scopeName</key>

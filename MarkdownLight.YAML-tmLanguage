@@ -164,6 +164,8 @@ repository:
     - include: '#italic'
     - include: '#strikethrough'
     - include: '#manual_line_break'
+    - include: '#valid_ampersand'
+    - include: '#valid_bracket'
     - include: text.html.basic
 
   escape:
@@ -348,6 +350,14 @@ repository:
   manual_line_break:
     name: meta.dummy.line-break
     match: '  +$'
+
+  valid_ampersand:
+    match: '&(?!([a-zA-Z\d]+|#\d+|#x[\da-fA-F]+);)'
+    name: meta.other.valid-ampersand.markdown
+
+  valid_bracket:
+    match: (?i)<(?![a-z\d?%:!]|/[a-z\d])
+    name: meta.other.valid-bracket.markdown
 
 # --- /inline ---
 
