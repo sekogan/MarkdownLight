@@ -22,7 +22,11 @@ Install via **Package Control** or just clone the repository to the Sublime *"Pa
 Demo
 ----
 
+Markdown Light
 ![](demo/demo.png)
+
+Markdown Dark
+![](demo/demo_dark.png)
 
 Running The Tests
 -----------------
