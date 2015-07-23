@@ -10,7 +10,7 @@ Features
 
 - Supports core Markdown with Github additions.
 - Self-contained, everything just works out of the box.
-- Has built-in color scheme with normal contrast.
+- Has built-in light and dark color schemes with normal contrast.
 - Focused on real use cases, not specs.
 - Covered by unit tests to control corner cases and regressions.
 
