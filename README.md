@@ -22,10 +22,12 @@ Install via **Package Control** or just clone the repository to the Sublime *"Pa
 Demo
 ----
 
-Markdown Light
+Light color scheme
+
 ![](demo/demo.png)
 
-Markdown Dark
+Dark color scheme
+
 ![](demo/demo_dark.png)
 
 Running The Tests
