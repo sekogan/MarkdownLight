@@ -22,7 +22,7 @@ Install via **Package Control** or just clone the repository to the Sublime *"Pa
 Demo
 ----
 
-Light color scheme
+Light color scheme (default)
 
 ![](demo/demo.png)
 
@@ -30,7 +30,18 @@ Dark color scheme
 
 ![](demo/demo_dark.png)
 
-Running The Tests
+How to use the dark color scheme
+--------------------------------
+
+Open any markdown file and use the main menu to edit syntax specific settings (`Settings — More` &rarr; `Syntax Specific — User`). Add `color_scheme` value as follows:
+
+```json
+{
+	"color_scheme": "Packages/MarkdownLight/MarkdownDark.tmTheme"
+}
+```
+
+Running the tests
 -----------------
 
 [UnitTesting][] plugin is required to run the tests. Use it as described [here][UnitTestingReadme].
