@@ -86,7 +86,7 @@ settings:
 - name: Classes
   scope: meta.class
   settings:
-    foreground: '#282a2e'
+    foreground: '#d6d6d6'
 
 - name: Methods
   scope: keyword.other.special-method
