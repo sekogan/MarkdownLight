@@ -3,6 +3,8 @@ Markdown Light
 
 Markdown **syntax highlighting plugin** and **color scheme** for Sublime Text 3.
 
+:skull: **WARNING! This project is pretty much abandoned. I personally don't use Sublime Text anymore and don't have time to fix compatibility issues with new versions of Siblime that continue to arise.**
+
 [![Build Status](https://travis-ci.org/sekogan/MarkdownLight.svg)](https://travis-ci.org/sekogan/MarkdownLight)
 
 Features
